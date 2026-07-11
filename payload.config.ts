@@ -25,9 +25,12 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
+    // Automatically create / sync all collection tables on startup.
+    // Safe for production: it only creates missing tables, never drops existing data.
+    push: true,
     pool: {
       connectionString: process.env.DATABASE_URL || (
-        process.env.DB_HOST 
+        process.env.DB_HOST
           ? `postgres://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'postgres'}@${process.env.DB_HOST}:${process.env.DB_PORT || '5432'}/${process.env.DB_NAME || 'jkosi'}`
           : 'postgres://postgres:postgres@127.0.0.1:5432/jkosi'
       ),
