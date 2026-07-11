@@ -91,6 +91,14 @@ npm run build
 npm run start
 ```
 
+### 🐳 6. Running with Docker & Docker Compose
+For an automated, zero-config environment (launches both Next.js and a local PostgreSQL database container):
+```bash
+# Build and run the containers
+docker compose up --build
+```
+Once initialized, the platform will be available at [http://localhost:3000](http://localhost:3000) and the database will be fully configured automatically.
+
 ---
 
 ## 🤝 Contribution Workflow
