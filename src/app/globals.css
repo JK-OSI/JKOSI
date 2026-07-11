@@ -1,0 +1,557 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface-dim: oklch(18% 0.015 165);
+  --color-secondary: oklch(76% 0.01 165);
+  --color-surface-tint: oklch(22% 0.02 165);
+  --color-on-surface-variant: oklch(76% 0.01 165);
+  --color-tertiary-container: oklch(22% 0.02 165);
+  --color-tertiary-fixed-dim: oklch(68% 0.22 35);
+  --color-outline: oklch(24% 0.015 165);
+  --color-on-secondary: oklch(12% 0.012 165);
+  --color-on-surface: oklch(96% 0.005 165);
+  --color-error: #ba1a1a;
+  --color-on-error: #ffffff;
+  --color-on-primary: oklch(12% 0.012 165);
+  --color-surface-container-low: oklch(16% 0.013 165);
+  --color-error-container: #ffdad6;
+  --color-on-tertiary-container: oklch(96% 0.005 165);
+  --color-on-primary-fixed: oklch(12% 0.012 165);
+  --color-surface-bright: oklch(20% 0.02 165);
+  --color-on-tertiary-fixed-variant: oklch(76% 0.01 165);
+  --color-on-secondary-fixed: oklch(12% 0.012 165);
+  --color-on-background: oklch(96% 0.005 165);
+  --color-on-tertiary-fixed: oklch(96% 0.005 165);
+  --color-surface-container-high: oklch(20% 0.02 165);
+  --color-primary-fixed-dim: oklch(68% 0.22 35);
+  --color-surface-container-lowest: oklch(12% 0.012 165);
+  --color-on-tertiary: oklch(12% 0.012 165);
+  --color-on-primary-fixed-variant: oklch(76% 0.01 165);
+  --color-tertiary-fixed: oklch(68% 0.22 35);
+  --color-primary-fixed: oklch(68% 0.22 35);
+  --color-inverse-primary: oklch(68% 0.22 35);
+  --color-inverse-surface: oklch(20% 0.02 165);
+  --color-on-secondary-container: oklch(76% 0.01 165);
+  --color-secondary-fixed-dim: oklch(76% 0.01 165);
+  --color-surface-container: oklch(18% 0.015 165);
+  --color-secondary-fixed: oklch(76% 0.01 165);
+  --color-outline-variant: oklch(24% 0.015 165);
+  --color-primary-container: oklch(14% 0.012 165);
+  --color-surface-variant: oklch(18% 0.015 165);
+  --color-on-primary-container: oklch(96% 0.005 165);
+  --color-on-secondary-fixed-variant: oklch(76% 0.01 165);
+  --color-surface: oklch(14% 0.012 165);
+  --color-tertiary: oklch(68% 0.22 35);
+  --color-secondary-container: oklch(18% 0.015 165);
+  --color-primary: oklch(68% 0.22 35);
+  --color-background: oklch(14% 0.012 165);
+  --color-on-error-container: #93000a;
+  --color-surface-container-highest: oklch(22% 0.02 165);
+  --color-inverse-on-surface: oklch(96% 0.005 165);
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+
+  --spacing-xl: 48px;
+  --spacing-container-max: 1200px;
+  --spacing-base: 4px;
+  --spacing-sm: 8px;
+  --spacing-lg: 24px;
+  --spacing-xs: 4px;
+  --spacing-gutter: 24px;
+  --spacing-md: 16px;
+
+  --font-headline-xl: var(--font-plus-jakarta-sans), sans-serif;
+  --font-body-md: var(--font-inter), sans-serif;
+  --font-headline-lg-mobile: var(--font-plus-jakarta-sans), sans-serif;
+  --font-body-lg: var(--font-inter), sans-serif;
+  --font-label-sm: var(--font-inter), sans-serif;
+  --font-headline-md: var(--font-plus-jakarta-sans), sans-serif;
+  --font-headline-lg: var(--font-plus-jakarta-sans), sans-serif;
+  --font-label-md: var(--font-inter), sans-serif;
+}
+
+@utility text-headline-xl {
+  font-size: 48px;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+}
+@utility text-body-md {
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+@utility text-headline-lg-mobile {
+  font-size: 24px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+@utility text-body-lg {
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+@utility text-label-sm {
+  font-size: 12px;
+  line-height: 1;
+  font-weight: 600;
+}
+@utility text-headline-md {
+  font-size: 24px;
+  line-height: 1.4;
+  font-weight: 600;
+}
+@utility text-headline-lg {
+  font-size: 32px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+@utility text-label-md {
+  font-size: 14px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  font-weight: 500;
+}
+
+/* Custom CSS classes from original project */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+.project-card {
+  transition: transform var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+.project-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px oklch(12% 0.012 165 / 0.5);
+  border-color: var(--color-primary);
+}
+.glass-panel {
+  background: rgba(24, 28, 26, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid oklch(24% 0.015 165);
+}
+.text-glow {
+  text-shadow: 0 0 24px oklch(68% 0.22 35 / 0.15);
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+.project-card-lift {
+  transition: transform var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+.project-card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px oklch(12% 0.012 165 / 0.5);
+}
+.custom-bullet::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-primary);
+  border-radius: 2px;
+  margin-right: 12px;
+}
+.step-transition {
+  transition: all 0.5s var(--ease-out);
+}
+.hidden-step {
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  position: absolute;
+}
+.active-step {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+}
+.pattern-bg {
+  background-color: var(--color-surface);
+  background-image: radial-gradient(circle at 2px 2px, oklch(96% 0.005 165 / 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+.glass-effect {
+  background: rgba(24, 28, 26, 0.7);
+  backdrop-filter: blur(16px);
+  border: 1px solid oklch(24% 0.015 165);
+}
+
+/* Hallmark Premium Design Tokens & Utilities */
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-short: 180ms;
+
+  --bloom-color-1: oklch(50% 0.15 165);
+  --bloom-color-2: oklch(65% 0.22 35);
+}
+
+.theme-spruce {
+  --color-primary: oklch(68% 0.22 35);
+  --color-background: oklch(14% 0.012 165);
+  --color-surface: oklch(14% 0.012 165);
+  --color-surface-container: oklch(18% 0.015 165);
+  --color-surface-container-low: oklch(16% 0.013 165);
+  --color-surface-container-high: oklch(20% 0.02 165);
+  --color-surface-container-lowest: oklch(12% 0.012 165);
+  --color-outline: oklch(24% 0.015 165);
+  --color-outline-variant: oklch(24% 0.015 165);
+  --color-secondary: oklch(76% 0.01 165);
+  --bloom-color-1: oklch(50% 0.15 165);
+  --bloom-color-2: oklch(65% 0.22 35);
+}
+
+.theme-marigold {
+  --color-primary: oklch(75% 0.18 70);
+  --color-background: oklch(13% 0.015 45);
+  --color-surface: oklch(13% 0.015 45);
+  --color-surface-container: oklch(17% 0.018 45);
+  --color-surface-container-low: oklch(15% 0.016 45);
+  --color-surface-container-high: oklch(19% 0.02 45);
+  --color-surface-container-lowest: oklch(10% 0.01 45);
+  --color-outline: oklch(25% 0.018 45);
+  --color-outline-variant: oklch(25% 0.018 45);
+  --color-secondary: oklch(78% 0.01 45);
+  --bloom-color-1: oklch(48% 0.14 45);
+  --bloom-color-2: oklch(68% 0.22 70);
+}
+
+.theme-ice {
+  --color-primary: oklch(72% 0.15 250);
+  --color-background: oklch(13% 0.016 220);
+  --color-surface: oklch(13% 0.016 220);
+  --color-surface-container: oklch(17% 0.02 220);
+  --color-surface-container-low: oklch(15% 0.018 220);
+  --color-surface-container-high: oklch(19% 0.022 220);
+  --color-surface-container-lowest: oklch(10% 0.012 220);
+  --color-outline: oklch(25% 0.02 220);
+  --color-outline-variant: oklch(25% 0.02 220);
+  --color-secondary: oklch(78% 0.01 220);
+  --bloom-color-1: oklch(50% 0.15 220);
+  --bloom-color-2: oklch(65% 0.18 250);
+}
+
+.theme-rose {
+  --color-primary: oklch(68% 0.15 15);
+  --color-background: oklch(12% 0.015 350);
+  --color-surface: oklch(12% 0.015 350);
+  --color-surface-container: oklch(16% 0.018 350);
+  --color-surface-container-low: oklch(14% 0.016 350);
+  --color-surface-container-high: oklch(18% 0.02 350);
+  --color-surface-container-lowest: oklch(10% 0.012 350);
+  --color-outline: oklch(24% 0.018 350);
+  --color-outline-variant: oklch(24% 0.018 350);
+  --color-secondary: oklch(76% 0.01 350);
+  --bloom-color-1: oklch(48% 0.15 350);
+  --bloom-color-2: oklch(62% 0.16 15);
+}
+
+.theme-light {
+  --color-primary: oklch(58% 0.18 165);
+  --color-background: oklch(98% 0.005 165);
+  --color-surface: oklch(98% 0.005 165);
+  --color-surface-container: oklch(94% 0.008 165);
+  --color-surface-container-low: oklch(96% 0.006 165);
+  --color-surface-container-high: oklch(91% 0.01 165);
+  --color-surface-container-lowest: oklch(100% 0 165);
+  --color-surface-container-highest: oklch(88% 0.012 165);
+  --color-surface-variant: oklch(94% 0.008 165);
+  --color-surface-dim: oklch(92% 0.01 165);
+  --color-primary-container: oklch(95% 0.015 165);
+  --color-secondary-container: oklch(94% 0.008 165);
+  --color-outline: oklch(85% 0.01 165);
+  --color-outline-variant: oklch(85% 0.01 165);
+  --color-secondary: oklch(40% 0.05 165);
+  --color-on-background: oklch(12% 0.01 165);
+  --color-on-surface: oklch(12% 0.01 165);
+  --color-on-surface-variant: oklch(35% 0.015 165);
+  --color-on-primary: oklch(98% 0.005 165);
+  --color-on-primary-container: oklch(12% 0.01 165);
+  --color-on-secondary-container: oklch(15% 0.012 165);
+  --bloom-color-1: oklch(92% 0.04 165);
+  --bloom-color-2: oklch(93% 0.05 35);
+}
+
+.theme-light nav {
+  background-color: rgba(245, 245, 245, 0.75) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+.theme-light img.brightness-0.invert {
+  filter: brightness(0) !important;
+}
+
+.theme-light .text-glow {
+  text-shadow: none !important;
+}
+
+.theme-light .bento-card-premium:hover,
+.theme-light .project-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.06) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-container-lowest);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}
+
+/* Bento Card Premium styling */
+.bento-card-premium {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-outline);
+  transition: transform var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+}
+.bento-card-premium:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 30px oklch(12% 0.012 165 / 0.5);
+}
+
+/* Soft atmospheric radial gradients (glow blooms) */
+.bloom-overlay {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(140px);
+  opacity: 0.15;
+  z-index: 0;
+}
+.bloom-moss {
+  width: 50vw;
+  height: 50vw;
+  background: var(--bloom-color-1);
+  top: -15%;
+  left: -10%;
+}
+.bloom-saffron {
+  width: 45vw;
+  height: 45vw;
+  background: var(--bloom-color-2);
+  bottom: 5%;
+  right: -5%;
+}
+
+/* 3D Floating Motion Object Keyframes */
+@keyframes float3d {
+  0% {
+    transform: translateY(0px) rotateY(-10deg) rotateX(8deg);
+  }
+  50% {
+    transform: translateY(-12px) rotateY(10deg) rotateX(-8deg);
+  }
+  100% {
+    transform: translateY(0px) rotateY(-10deg) rotateX(8deg);
+  }
+}
+
+.animate-float3d {
+  animation: float3d 6s ease-in-out infinite;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* GitHub README render styles */
+.github-readme {
+  color: var(--color-on-surface);
+  font-size: 16px;
+  line-height: 1.7;
+  word-wrap: break-word;
+}
+.github-readme h1 {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-outline);
+  letter-spacing: -0.02em;
+}
+.github-readme h2 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 24px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-outline);
+  letter-spacing: -0.01em;
+}
+.github-readme h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 24px 0 16px;
+}
+.github-readme h4 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 24px 0 16px;
+}
+.github-readme p {
+  margin: 0 0 16px;
+  color: var(--color-on-surface-variant);
+  line-height: 1.7;
+}
+.github-readme a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.github-readme a:hover {
+  text-decoration: underline;
+}
+.github-readme strong {
+  color: var(--color-on-surface);
+  font-weight: 700;
+}
+.github-readme hr {
+  border: none;
+  border-top: 1px solid var(--color-outline);
+  margin: 24px 0;
+}
+.github-readme ul,
+.github-readme ol {
+  padding-left: 32px;
+  margin: 0 0 16px;
+  color: var(--color-on-surface-variant);
+}
+.github-readme li {
+  margin-bottom: 4px;
+}
+.github-readme li > p {
+  margin-bottom: 4px;
+}
+.github-readme img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 16px 0;
+  display: block;
+}
+.github-readme blockquote {
+  margin: 0 0 16px;
+  padding: 0 16px;
+  border-left: 4px solid var(--color-primary);
+  color: var(--color-on-surface-variant);
+  opacity: 0.85;
+}
+.github-readme code {
+  font-family: 'Cascadia Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace;
+  font-size: 13px;
+  background: var(--color-surface-container-high);
+  color: var(--color-primary);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.github-readme pre {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline);
+  border-radius: 8px;
+  padding: 16px;
+  overflow-x: auto;
+  margin: 0 0 16px;
+}
+.github-readme pre code {
+  background: transparent;
+  color: var(--color-on-surface);
+  padding: 0;
+  border-radius: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.github-readme table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 16px;
+  display: block;
+  overflow-x: auto;
+}
+.github-readme th,
+.github-readme td {
+  padding: 8px 16px;
+  border: 1px solid var(--color-outline);
+  text-align: left;
+}
+.github-readme th {
+  font-weight: 700;
+  color: var(--color-on-surface);
+  background: var(--color-surface-container-high);
+}
+.github-readme td {
+  color: var(--color-on-surface-variant);
+}
+.github-readme tr:nth-child(even) td {
+  background: var(--color-surface-container-low);
+}
+.github-readme tr:hover td {
+  background: var(--color-surface-container);
+}
+.github-readme details {
+  margin: 0 0 16px;
+  padding: 8px 16px;
+  background: var(--color-surface-container-low);
+  border: 1px solid var(--color-outline);
+  border-radius: 8px;
+}
+.github-readme summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-on-surface);
+  padding: 4px 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.github-readme summary::-webkit-details-marker {
+  display: none;
+}
+.github-readme summary::before {
+  content: '▶';
+  font-size: 10px;
+  transition: transform 0.15s;
+  color: var(--color-primary);
+}
+.github-readme details[open] summary::before {
+  transform: rotate(90deg);
+}
+.github-readme details[open] > :not(summary) {
+  margin-top: 8px;
+}
+.github-readme input[type="checkbox"] {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-outline);
+  border-radius: 3px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 6px 0 0;
+  vertical-align: middle;
+  cursor: default;
+}
+.github-readme input[type="checkbox"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.github-readme input[type="checkbox"]:checked::after {
+  content: '✓';
+  color: var(--color-on-primary);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+

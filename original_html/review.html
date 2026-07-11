@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JKOSI Admin | Project Review Dashboard</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-dim": "#d9dadb",
+                        "secondary": "#5a5f64",
+                        "surface-tint": "#2b6954",
+                        "on-surface-variant": "#404944",
+                        "tertiary-container": "#4c2e99",
+                        "tertiary-fixed-dim": "#cebdff",
+                        "outline": "#707974",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#191c1d",
+                        "error": "#ba1a1a",
+                        "on-error": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-low": "#f3f4f5",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#bba4ff",
+                        "on-primary-fixed": "#002117",
+                        "surface-bright": "#f8f9fa",
+                        "on-tertiary-fixed-variant": "#4f319c",
+                        "on-secondary-fixed": "#171c20",
+                        "on-background": "#191c1d",
+                        "on-tertiary-fixed": "#21005e",
+                        "surface-container-high": "#e7e8e9",
+                        "primary-fixed-dim": "#95d3ba",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#0b513d",
+                        "tertiary-fixed": "#e8ddff",
+                        "primary-fixed": "#b0f0d6",
+                        "inverse-primary": "#95d3ba",
+                        "inverse-surface": "#2e3132",
+                        "on-secondary-container": "#60656a",
+                        "secondary-fixed-dim": "#c3c7cd",
+                        "surface-container": "#edeeef",
+                        "secondary-fixed": "#dfe3e9",
+                        "outline-variant": "#bfc9c3",
+                        "primary-container": "#064e3b",
+                        "surface-variant": "#e1e3e4",
+                        "on-primary-container": "#80bea6",
+                        "on-secondary-fixed-variant": "#43474c",
+                        "surface": "#f8f9fa",
+                        "tertiary": "#350f82",
+                        "secondary-container": "#dfe3e9",
+                        "primary": "#003527",
+                        "background": "#f8f9fa",
+                        "on-error-container": "#93000a",
+                        "surface-container-highest": "#e1e3e4",
+                        "inverse-on-surface": "#f0f1f2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "48px",
+                        "container-max": "1200px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-xl": ["Montserrat"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Montserrat"],
+                        "body-lg": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "headline-md": ["Montserrat"],
+                        "headline-lg": ["Montserrat"],
+                        "label-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "500"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .project-card:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+        .custom-bullet::before {
+            content: "";
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background-color: #5a5f64;
+            border-radius: 2px;
+            margin-right: 12px;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md">
+<!-- TopNavBar -->
+<header class="bg-surface border-b border-outline-variant sticky top-0 z-50 h-20">
+<nav class="flex justify-between items-center w-full px-lg max-w-container-max mx-auto h-full">
+<div class="font-headline-md text-headline-md font-bold text-primary">JKOSI</div>
+<div class="hidden md:flex gap-lg items-center">
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Directory</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-bold font-label-md text-label-md" href="#">Submit Project</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Community</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Documentation</a>
+</div>
+<div class="flex items-center gap-md">
+<div class="hidden lg:flex items-center bg-surface-container rounded-full px-md py-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-label-md font-label-md w-48" placeholder="Search submissions..." type="text"/>
+</div>
+<button class="bg-primary text-on-primary px-lg py-sm rounded-lg font-label-md text-label-md hover:opacity-90 transition-opacity">Sign In</button>
+</div>
+</nav>
+</header>
+<main class="flex-grow w-full max-w-container-max mx-auto px-lg py-xl">
+<!-- Dashboard Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-xl gap-md">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-primary mb-xs">Review Queue</h1>
+<p class="text-secondary font-body-lg text-body-lg">Manage pending open-source project submissions from the community.</p>
+</div>
+<div class="flex gap-sm">
+<div class="bg-primary-container text-on-primary-container px-md py-sm rounded-lg flex items-center gap-xs">
+<span class="font-bold text-headline-md">12</span>
+<span class="text-label-sm font-label-sm">Pending</span>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-md py-sm rounded-lg flex items-center gap-xs">
+<span class="font-bold text-headline-md">05</span>
+<span class="text-label-sm font-label-sm">In Review</span>
+</div>
+</div>
+</div>
+<!-- Dashboard Layout: Bento Grid Style -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-lg">
+<!-- Sidebar: Filters & Stats -->
+<aside class="lg:col-span-3 space-y-lg">
+<div class="bg-surface-container-lowest p-lg rounded-xl border border-outline-variant">
+<h3 class="font-headline-md text-headline-md text-on-surface mb-md">Filters</h3>
+<div class="space-y-md">
+<div>
+<label class="block text-label-sm font-label-sm text-secondary mb-xs">STATUS</label>
+<select class="w-full bg-surface-container border border-outline-variant rounded-lg p-sm text-body-md focus:border-surface-tint focus:ring-1 focus:ring-surface-tint outline-none">
+<option>All Submissions</option>
+<option>Pending</option>
+<option>Under Review</option>
+<option>Request Changes</option>
+</select>
+</div>
+<div>
+<label class="block text-label-sm font-label-sm text-secondary mb-xs">CATEGORY</label>
+<div class="flex flex-wrap gap-xs">
+<span class="bg-primary-fixed text-on-primary-fixed px-sm py-1 rounded-full text-label-sm font-label-sm">Software</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-1 rounded-full text-label-sm font-label-sm">Culture</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-1 rounded-full text-label-sm font-label-sm">History</span>
+<span class="bg-surface-container-high text-on-surface-variant px-sm py-1 rounded-full text-label-sm font-label-sm">Governance</span>
+</div>
+</div>
+</div>
+</div>
+<div class="relative overflow-hidden bg-primary h-48 rounded-xl flex flex-col justify-end p-lg">
+
+<div class="relative z-10">
+<p class="text-on-primary font-headline-md text-headline-md">Guidebook</p>
+<p class="text-on-primary-container text-label-sm font-label-sm">Learn about review standards</p>
+</div>
+</div>
+</aside>
+<!-- Main Content: Submission List -->
+<div class="lg:col-span-9 space-y-md">
+<!-- Submission Card 1 (Active/Expanded Example) -->
+<div class="bg-surface-container-lowest border-t-4 border-primary rounded-xl p-lg shadow-sm project-card transition-all duration-300">
+<div class="flex flex-col md:flex-row justify-between gap-md mb-md">
+<div class="flex gap-md">
+<div class="w-16 h-16 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[32px]">code</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Kashmiri NLP Toolkit</h2>
+<p class="text-secondary text-body-md">Submitted by <span class="text-primary font-semibold">@rayees_dev</span> • 2 hours ago</p>
+</div>
+</div>
+<div>
+<span class="bg-primary-container text-on-primary-container px-md py-sm rounded-full text-label-sm font-label-sm flex items-center gap-xs">
+<span class="w-2 h-2 rounded-full bg-on-primary-container animate-pulse"></span>
+                                PENDING
+                            </span>
+</div>
+</div>
+<p class="text-on-surface-variant text-body-md mb-lg leading-relaxed">
+                        A comprehensive Python library for Natural Language Processing specifically designed for the Kashmiri language, including tokenization and sentiment analysis components for regional dialects.
+                    </p>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg mb-xl p-md bg-surface-container rounded-lg">
+<div class="space-y-sm">
+<p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">Repository</p>
+<a class="text-primary hover:underline flex items-center gap-xs" href="#">
+                                github.com/jkosi/kashmiri-nlp
+                                <span class="material-symbols-outlined text-sm">open_in_new</span>
+</a>
+</div>
+<div class="space-y-sm">
+<p class="text-label-sm font-label-sm text-secondary uppercase tracking-wider">License</p>
+<p class="text-on-surface">MIT License</p>
+</div>
+</div>
+<!-- Admin Interaction Area -->
+<div class="border-t border-outline-variant pt-lg">
+<div class="mb-md">
+<label class="block text-label-md font-label-md text-on-surface mb-xs">Feedback for Contributor</label>
+<textarea class="w-full bg-surface border border-outline-variant rounded-lg p-md text-body-md focus:border-surface-tint focus:ring-1 focus:ring-surface-tint outline-none min-h-[100px]" placeholder="Add a comment or specific instructions..."></textarea>
+</div>
+<div class="flex flex-wrap gap-md justify-end">
+<button class="px-lg py-sm border border-error text-error rounded-lg font-label-md text-label-md hover:bg-error-container transition-colors">Reject</button>
+<button class="px-lg py-sm border border-primary text-primary rounded-lg font-label-md text-label-md hover:bg-primary-fixed transition-colors">Request Changes</button>
+<button class="px-xl py-sm bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:opacity-90 shadow-md">Approve Project</button>
+</div>
+</div>
+</div>
+<!-- Submission Card 2 (Collapsed Example) -->
+<div class="bg-surface-container-lowest border-t-4 border-secondary rounded-xl p-lg shadow-sm project-card transition-all duration-300 opacity-90 cursor-pointer">
+<div class="flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex gap-md items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[24px]">history_edu</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Digitizing Dogra Manuscripts</h2>
+<p class="text-secondary text-label-sm font-label-sm">Submitted by <span class="text-primary font-semibold">@heritage_lab</span> • 1 day ago</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="bg-secondary-container text-on-secondary-container px-md py-sm rounded-full text-label-sm font-label-sm flex items-center gap-xs">
+                                UNDER REVIEW
+                            </span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Submission Card 3 (Collapsed Example) -->
+<div class="bg-surface-container-lowest border-t-4 border-secondary rounded-xl p-lg shadow-sm project-card transition-all duration-300 opacity-90 cursor-pointer">
+<div class="flex flex-col md:flex-row justify-between items-center gap-md">
+<div class="flex gap-md items-center">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[24px]">map</span>
+</div>
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Open Valley Maps API</h2>
+<p class="text-secondary text-label-sm font-label-sm">Submitted by <span class="text-primary font-semibold">@geo_sharma</span> • 3 days ago</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="bg-secondary-container text-on-secondary-container px-md py-sm rounded-full text-label-sm font-label-sm flex items-center gap-xs">
+                                UNDER REVIEW
+                            </span>
+<span class="material-symbols-outlined text-outline">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Pagination/Load More -->
+<div class="flex justify-center py-lg">
+<button class="text-primary font-label-md text-label-md flex items-center gap-xs hover:gap-sm transition-all">
+                        Load more submissions
+                        <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-lg mt-auto border-t border-outline-variant bg-surface-container">
+<div class="max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-xl mb-xl">
+<div>
+<div class="font-headline-md text-headline-md font-bold text-primary mb-sm">JKOSI</div>
+<p class="text-on-secondary-container text-body-md max-w-md">© 2024 Jammu &amp; Kashmir Open Source Initiative. Empowering regional innovation through open collaboration.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-xl">
+<div class="space-y-sm">
+<p class="text-primary font-bold text-label-md uppercase">Initiative</p>
+<ul class="space-y-xs">
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">About Us</a></li>
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">Guidelines</a></li>
+</ul>
+</div>
+<div class="space-y-sm">
+<p class="text-primary font-bold text-label-md uppercase">Legal</p>
+<ul class="space-y-xs">
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">Privacy Policy</a></li>
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div class="space-y-sm">
+<p class="text-primary font-bold text-label-md uppercase">Connect</p>
+<ul class="space-y-xs">
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">GitHub</a></li>
+<li><a class="text-on-secondary-container hover:underline decoration-primary text-label-sm font-label-sm" href="#">Discord</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="border-t border-outline-variant pt-lg flex flex-col sm:flex-row justify-between items-center gap-md">
+<p class="text-on-secondary-container text-label-sm font-label-sm">Admin Dashboard v2.4.0-stable</p>
+<div class="flex gap-md">
+<span class="material-symbols-outlined text-secondary">shield_person</span>
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for submission cards
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Placeholder for expand/collapse logic
+                console.log('Submission selected for review');
+            });
+        });
+
+        // Simple feedback text auto-resize
+        const textarea = document.querySelector('textarea');
+        if (textarea) {
+            textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+        }
+    </script>
+</body></html>

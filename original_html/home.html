@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>JKOSI | Jammu &amp; Kashmir Open Source Initiative</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-dim": "#d9dadb",
+                      "secondary": "#5a5f64",
+                      "surface-tint": "#2b6954",
+                      "on-surface-variant": "#404944",
+                      "tertiary-container": "#4c2e99",
+                      "tertiary-fixed-dim": "#cebdff",
+                      "outline": "#707974",
+                      "on-secondary": "#ffffff",
+                      "on-surface": "#191c1d",
+                      "error": "#ba1a1a",
+                      "on-error": "#ffffff",
+                      "on-primary": "#ffffff",
+                      "surface-container-low": "#f3f4f5",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#bba4ff",
+                      "on-primary-fixed": "#002117",
+                      "surface-bright": "#f8f9fa",
+                      "on-tertiary-fixed-variant": "#4f319c",
+                      "on-secondary-fixed": "#171c20",
+                      "on-background": "#191c1d",
+                      "on-tertiary-fixed": "#21005e",
+                      "surface-container-high": "#e7e8e9",
+                      "primary-fixed-dim": "#95d3ba",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#0b513d",
+                      "tertiary-fixed": "#e8ddff",
+                      "primary-fixed": "#b0f0d6",
+                      "inverse-primary": "#95d3ba",
+                      "inverse-surface": "#2e3132",
+                      "on-secondary-container": "#60656a",
+                      "secondary-fixed-dim": "#c3c7cd",
+                      "surface-container": "#edeeef",
+                      "secondary-fixed": "#dfe3e9",
+                      "outline-variant": "#bfc9c3",
+                      "primary-container": "#064e3b",
+                      "surface-variant": "#e1e3e4",
+                      "on-primary-container": "#80bea6",
+                      "on-secondary-fixed-variant": "#43474c",
+                      "surface": "#f8f9fa",
+                      "tertiary": "#350f82",
+                      "secondary-container": "#dfe3e9",
+                      "primary": "#003527",
+                      "background": "#f8f9fa",
+                      "on-error-container": "#93000a",
+                      "surface-container-highest": "#e1e3e4",
+                      "inverse-on-surface": "#f0f1f2"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "48px",
+                      "container-max": "1200px",
+                      "base": "4px",
+                      "sm": "8px",
+                      "lg": "24px",
+                      "xs": "4px",
+                      "gutter": "24px",
+                      "md": "16px"
+              },
+              "fontFamily": {
+                      "headline-xl": ["Montserrat"],
+                      "body-md": ["Inter"],
+                      "headline-lg-mobile": ["Montserrat"],
+                      "body-lg": ["Inter"],
+                      "label-sm": ["Inter"],
+                      "headline-md": ["Montserrat"],
+                      "headline-lg": ["Montserrat"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-xl": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "headline-lg-mobile": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                      "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "600"}],
+                      "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                      "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.01em", "fontWeight": "500"}]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 53, 39, 0.08);
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(191, 201, 195, 0.3);
+        }
+        .text-glow {
+            text-shadow: 0 0 20px rgba(0, 53, 39, 0.1);
+        }
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-primary">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant/30">
+<nav class="flex justify-between items-center w-full px-lg max-w-container-max mx-auto h-20">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md font-bold text-primary">JKOSI</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-primary border-b-2 border-primary pb-1 font-bold hover:text-primary transition-colors duration-200" href="#">Directory</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Submit Project</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Community</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Documentation</a>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex relative items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container rounded-full border-none focus:ring-2 focus:ring-primary text-label-md w-48 lg:w-64" placeholder="Search projects..." type="text"/>
+</div>
+<button class="px-6 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-full hover:bg-primary-container transition-all">Sign In</button>
+</div>
+</nav>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[870px] flex items-center overflow-hidden bg-primary-container">
+<div class="absolute inset-0 z-0 transition-all duration-700 opacity-100 translate-y-0">
+<div class="absolute inset-0 bg-gradient-to-br from-primary-container via-primary to-primary-container opacity-95"></div>
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(rgb(176, 240, 214) 0.5px, transparent 0.5px); background-size: 24px 24px;"></div>
+</div>
+<div class="relative z-10 max-w-container-max mx-auto px-lg grid grid-cols-1 lg:grid-cols-2 gap-12 items-center transition-all duration-700 opacity-100 translate-y-0">
+<div class="animate-fade-in-up lg:pr-12">
+<div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-fixed/20 backdrop-blur-md border border-primary-fixed/30 text-primary-fixed mb-8">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Official Community Hub</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-primary mb-8 leading-[1.1] tracking-tight">
+                    Empowering J&amp;K <br/>through <span class="text-primary-fixed">Open Source</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-primary-container/80 mb-12 max-w-lg leading-relaxed">
+                    Accelerating regional digital transformation by fostering a collaborative ecosystem for Kashmiri developers, students, and innovators to build world-class software together.
+                </p>
+<div class="flex flex-wrap gap-6">
+<button class="px-10 py-4 bg-primary-fixed text-on-primary-fixed font-bold text-label-md rounded-full shadow-xl hover:bg-on-primary transition-all flex items-center gap-2 group">
+                        Browse Directory <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="px-10 py-4 bg-transparent border-2 border-primary-fixed/50 text-primary-fixed font-bold text-label-md rounded-full hover:bg-primary-fixed/10 transition-all">
+                        Submit a Project
+                    </button>
+</div>
+</div>
+<div class="hidden lg:block relative">
+<div class="relative z-20">
+<div class="glass-panel p-8 rounded-2xl shadow-2xl -rotate-3 border-on-primary/10 bg-surface/10 backdrop-blur-xl">
+<div class="flex items-center justify-between mb-6">
+<div class="flex gap-2">
+<div class="w-3 h-3 rounded-full bg-error/60"></div>
+<div class="w-3 h-3 rounded-full bg-surface-tint/60"></div>
+<div class="w-3 h-3 rounded-full bg-primary-fixed-dim/60"></div>
+</div>
+<span class="text-label-sm font-label-sm text-on-primary/60 font-mono">main_activity.rs</span>
+</div>
+<div class="space-y-4">
+<div class="h-4 w-3/4 bg-on-primary/20 rounded-full"></div>
+<div class="h-4 w-full bg-on-primary/10 rounded-full"></div>
+<div class="h-4 w-1/2 bg-on-primary/20 rounded-full"></div>
+<div class="h-4 w-5/6 bg-on-primary/10 rounded-full"></div>
+<div class="h-4 w-2/3 bg-on-primary/20 rounded-full"></div>
+</div>
+</div>
+</div>
+<div class="absolute -top-20 -right-20 w-96 h-96 bg-primary-fixed/10 rounded-full blur-[120px] -z-10"></div>
+<div class="absolute -bottom-20 -left-20 w-80 h-80 bg-tertiary-fixed/10 rounded-full blur-[100px] -z-10"></div>
+</div>
+</div>
+</section>
+<!-- How it Works (Bento Style) -->
+<section class="py-24 bg-surface">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">How it Works</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Our streamlined process ensures every open-source project meets the highest community standards while fostering local innovation.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Step 1 -->
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/20 flex flex-col items-start transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center text-on-primary mb-6">
+<span class="material-symbols-outlined">publish</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Submit</h3>
+<p class="text-on-surface-variant font-body-md">Register your open-source project or repository. We welcome tools, libraries, and initiatives specifically built for or by J&amp;K's tech talent.</p>
+<div class="mt-auto pt-6 text-primary font-label-md flex items-center gap-1 group cursor-pointer">
+                        Learn submission guidelines <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+<!-- Step 2 -->
+<div class="bg-primary-container p-8 rounded-xl border border-primary/20 flex flex-col items-start text-on-primary-container transition-transform hover:-translate-y-1 shadow-xl shadow-primary/10">
+<div class="w-12 h-12 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center mb-6">
+<span class="material-symbols-outlined">rate_review</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-primary-container mb-4">Evaluate</h3>
+<p class="text-on-primary-container/80 font-body-md">Our community council reviews the codebase for security, documentation, and licensing compliance to ensure quality for all contributors.</p>
+<div class="mt-auto pt-6 text-on-primary-container font-label-md flex items-center gap-1 group cursor-pointer">
+                        View review criteria <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-container p-8 rounded-xl border border-outline-variant/20 flex flex-col items-start transition-transform hover:-translate-y-1">
+<div class="w-12 h-12 rounded-lg bg-primary flex items-center justify-center text-on-primary mb-6">
+<span class="material-symbols-outlined">task_alt</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">Approve</h3>
+<p class="text-on-surface-variant font-body-md">Once approved, your project is featured in the directory, gaining visibility and potential contributors from the wider JKOSI network.</p>
+<div class="mt-auto pt-6 text-primary font-label-md flex items-center gap-1 group cursor-pointer">
+                        Browse the gallery <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Our Mission Section -->
+<section class="py-24 bg-background border-t border-outline-variant/20">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Our Mission</h2>
+<p class="font-headline-md text-headline-md text-on-surface-variant max-w-3xl">Driving Regional Innovation Through Open Collaboration</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-4">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined">groups</span>
+<h3 class="font-headline-md text-headline-md">Empowering Developers</h3>
+</div>
+<p class="text-on-surface-variant font-body-lg leading-relaxed">
+                        We provide the tools, mentorship, and global platform necessary for regional talent in Jammu &amp; Kashmir to showcase their skills. By bridging the gap between local innovation and global standards, we ensure our developers are recognized on the world stage.
+                    </p>
+</div>
+<div class="space-y-4">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined">security</span>
+<h3 class="font-headline-md text-headline-md">Building Digital Sovereignty</h3>
+</div>
+<p class="text-on-surface-variant font-body-lg leading-relaxed">
+                        Our initiative focuses on creating locally-owned and maintained technology solutions. We address the unique challenges of our region by fostering a self-reliant ecosystem that reduces dependency on external proprietary software.
+                    </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Open Source for J&K? Section -->
+<section class="py-24 bg-surface-container-low overflow-hidden">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div class="order-2 lg:order-1">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-8">Why Open Source for J&amp;K?</h2>
+<div class="space-y-8">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">agriculture</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Solving Local Problems</h4>
+<p class="text-on-surface-variant font-body-md">Creating specialized tech for agriculture, saffron harvesting, and high-altitude tourism that global proprietary software often overlooks.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">school</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Building Local Expertise</h4>
+<p class="text-on-surface-variant font-body-md">Turning students into contributors. Working on real-world projects provides the practical experience needed to thrive in the global tech market.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">eco</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Self-Sustaining Ecosystem</h4>
+<p class="text-on-surface-variant font-body-md">Reducing dependency on costly licenses by building and maintaining our own digital infrastructure, tailored to our specific regional needs.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="order-1 lg:order-2 relative">
+<div class="aspect-square bg-primary/5 rounded-full absolute -top-10 -right-10 w-full animate-pulse"></div>
+<div class="relative z-10 grid grid-cols-2 gap-4">
+<div class="space-y-4 pt-12">
+<div class="bg-surface p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+<span class="text-primary font-bold text-3xl">90%</span>
+<p class="text-label-sm font-label-sm text-secondary uppercase mt-2">Local Problem Focus</p>
+</div>
+<div class="bg-primary p-6 rounded-2xl shadow-xl">
+<span class="text-on-primary font-bold text-3xl">1.5k+</span>
+<p class="text-label-sm font-label-sm text-on-primary/70 uppercase mt-2">Active Contributors</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-primary-container p-6 rounded-2xl shadow-sm">
+<span class="text-on-primary-container font-bold text-3xl">45+</span>
+<p class="text-label-sm font-label-sm text-on-primary-container/70 uppercase mt-2">Partner Institutions</p>
+</div>
+<div class="bg-surface p-6 rounded-2xl shadow-sm border border-outline-variant/30">
+<span class="text-primary font-bold text-3xl">240+</span>
+<p class="text-label-sm font-label-sm text-secondary uppercase mt-2">Projects Managed</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Community Ecosystem Section -->
+<section class="py-24 bg-background">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Community Ecosystem</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">JKOSI is more than code. It's a vibrant ecosystem where diverse talents collaborate to build regional digital sovereignty.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Developer -->
+<div class="group bg-surface border border-outline-variant/30 p-10 rounded-2xl transition-all hover:border-primary/50 hover:shadow-xl text-center">
+<div class="w-16 h-16 bg-primary-fixed/20 rounded-2xl flex items-center justify-center text-primary mx-auto mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">code</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">As a Developer</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Contribute to regional libraries, fix bugs in local health portals, or start your own open-source initiative.</p>
+<button class="w-full py-3 border border-primary text-primary font-label-md rounded-full hover:bg-primary hover:text-on-primary transition-colors">Start Coding</button>
+</div>
+<!-- Designer -->
+<div class="group bg-surface border border-outline-variant/30 p-10 rounded-2xl transition-all hover:border-primary/50 hover:shadow-xl text-center">
+<div class="w-16 h-16 bg-tertiary-fixed/20 rounded-2xl flex items-center justify-center text-tertiary mx-auto mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">brush</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">As a Designer</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Help improve the accessibility and usability of Kashmiri-language interfaces and regional digital services.</p>
+<button class="w-full py-3 border border-primary text-primary font-label-md rounded-full hover:bg-primary hover:text-on-primary transition-colors">Improve UX</button>
+</div>
+<!-- Mentor -->
+<div class="group bg-surface border border-outline-variant/30 p-10 rounded-2xl transition-all hover:border-primary/50 hover:shadow-xl text-center">
+<div class="w-16 h-16 bg-surface-tint/10 rounded-2xl flex items-center justify-center text-surface-tint mx-auto mb-8 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">school</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-4">As a Mentor</h3>
+<p class="text-on-surface-variant font-body-md mb-8">Share your expertise with local students, guide project maintainers, and help set technical standards.</p>
+<button class="w-full py-3 border border-primary text-primary font-label-md rounded-full hover:bg-primary hover:text-on-primary transition-colors">Become a Mentor</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust & Security Section -->
+<section class="py-24 bg-primary text-on-primary">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="flex flex-col lg:flex-row gap-16 items-center">
+<div class="lg:w-1/2">
+<h2 class="font-headline-lg text-headline-lg text-on-primary mb-6">Trust &amp; Professional Standards</h2>
+<p class="font-body-lg text-on-primary/80 mb-10">Every project on JKOSI undergoes a rigorous vetting process. We ensure that our ecosystem isn't just about quantity, but world-class quality and security.</p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">verified_user</span>
+<span class="font-label-md">Vulnerability Scanning</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">description</span>
+<span class="font-label-md">Documentation Audit</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">gavel</span>
+<span class="font-label-md">License Compliance</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed">forum</span>
+<span class="font-label-md">Maintainer Reliability</span>
+</div>
+</div>
+</div>
+<div class="lg:w-1/2 bg-on-primary/5 p-12 rounded-3xl border border-on-primary/10">
+<div class="space-y-8">
+<div>
+<h4 class="font-headline-md text-headline-md text-primary-fixed mb-2">01. Code Quality</h4>
+<p class="text-on-primary/70">Continuous integration tests and automated linting checks are required for all core projects.</p>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary-fixed mb-2">02. Documentation</h4>
+<p class="text-on-primary/70">Clear READMEs, contributing guidelines, and API docs are mandatory for community approval.</p>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary-fixed mb-2">03. Licensing</h4>
+<p class="text-on-primary/70">Strict adherence to OSI-approved licenses ensures free use and contribution for all.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Projects -->
+<section class="py-24 bg-background">
+<div class="max-w-container-max mx-auto px-lg">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-primary mb-2">Featured Projects</h2>
+<p class="text-on-surface-variant">Top contributing repositories making an impact in our ecosystem.</p>
+</div>
+<a class="text-primary font-label-md border-b border-primary hover:pb-1 transition-all" href="#">View all 240+ projects</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Project Card 1 -->
+<div class="project-card group bg-surface border-t-4 border-primary rounded-xl overflow-hidden shadow-sm transition-all duration-300 flex flex-col h-full">
+<div class="p-6 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2">
+<div class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">Data Science</div>
+<div class="px-3 py-1 rounded-full bg-surface-tint/10 text-surface-tint font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-surface-tint animate-pulse"></span>
+                                    Updated 2h ago
+                                </div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="text-label-md">1.2k</span>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-primary-container transition-colors">KashmIR Data Engine</h4>
+<p class="text-on-surface-variant text-body-md line-clamp-3 mb-6">An optimized LLM training framework specifically designed for low-resource languages in the Himalayan region, including Kashmiri and Dogri.</p>
+<div class="mt-auto">
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">Python</span>
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">PyTorch</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container">
+<img alt="Lead: @AamirTech" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMvMaDiNvfscTa2GXf0e7GffUjAwvQdBtbzc5OhYBiJ8myn64f2ERqaP2nXBSjbNoxtcP7du_pZ0BG5dXoaVdBLoUdGkGu5jnBa74bAXfz6JNIxF2wOKzePGXr3ViWu0BHi9H9azmZXPju4LrXIh0LeEXTD_UOzYjwWb4mqOP-HSQZ42g6ANiWshjDOtb9_DEGiisksJ97_G2f7f6DuY-yROzy8NnzI-tI8Cvfa-rdtYnqVVskL2cjSC2S9aWihuHJ9oeYNjmSM2s"/>
+</div>
+<span class="text-label-sm font-label-sm text-secondary">@AamirTech</span>
+</div>
+<span class="text-label-sm text-primary font-bold">Help Wanted</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Card 2 -->
+<div class="project-card group bg-surface border-t-4 border-primary rounded-xl overflow-hidden shadow-sm transition-all duration-300 flex flex-col h-full">
+<div class="p-6 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2">
+<div class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">Sustainability</div>
+<div class="px-3 py-1 rounded-full bg-tertiary-container/10 text-tertiary-container font-label-sm text-label-sm">v2.1.0</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="text-label-md">842</span>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-primary-container transition-colors">Dal Lake Monitoring</h4>
+<p class="text-on-surface-variant text-body-md line-clamp-3 mb-6">IoT-based sensor network dashboard for tracking water quality and oxygen levels in Dal Lake, helping preservation efforts.</p>
+<div class="mt-auto">
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">Arduino</span>
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">React</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container">
+<img alt="Lead: @DalGuardians" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBU5hTe-MicIDJUawwuLyeJOy-Clv52C2oyuwrK6QjsZ6sqyxKifJ9JjdYZ4DsLSfFwjhm5LqE2xwf3WXkMoh0_cEWYZANDOz_vfVCu66R6PWr3WB6DZV5ZeyQHKLRcm6pcFPWy6WJeGCnnYhXU9U5qCzB19teG9k_w6u34I-Qc16bDKEj87eqn0XqadkU-AS44RUVxlcZ-zmz9kqrx7APelf5SQxIqlmkVC51KaeomTzdb-DhkiPj2TNp0AHX_BHu3F-mxKVUJrC0"/>
+</div>
+<span class="text-label-sm font-label-sm text-secondary">@DalGuardians</span>
+</div>
+<span class="text-label-sm text-on-surface-variant">Maintenance</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Project Card 3 -->
+<div class="project-card group bg-surface border-t-4 border-primary rounded-xl overflow-hidden shadow-sm transition-all duration-300 flex flex-col h-full">
+<div class="p-6 flex flex-col h-full">
+<div class="flex justify-between items-start mb-4">
+<div class="flex gap-2">
+<div class="px-3 py-1 rounded-full bg-primary/10 text-primary font-label-sm text-label-sm">E-Governance</div>
+<div class="px-3 py-1 rounded-full bg-error-container text-error font-label-sm text-label-sm">Breaking Changes</div>
+</div>
+<div class="flex items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">star</span>
+<span class="text-label-md">2.1k</span>
+</div>
+</div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2 group-hover:text-primary-container transition-colors">J&amp;K Health Bridge</h4>
+<p class="text-on-surface-variant text-body-md line-clamp-3 mb-6">Open-source telemedicine platform connecting rural clinics in high-altitude zones to specialized doctors in Srinagar and Jammu.</p>
+<div class="mt-auto">
+<div class="flex flex-wrap gap-2 mb-6">
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">Go</span>
+<span class="text-[11px] px-2 py-0.5 rounded bg-surface-container-highest text-secondary uppercase font-bold">GraphQL</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container">
+<img alt="Lead: @JKHealthDev" class="w-full h-full object-cover rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDycSgr9PwZp8BrIRD4XtMoxjtssiPfcODM2IMp-HWSwt9tDnLH-IFPqoUtoTjqBKUnCHdUDzMAqXSgZqV54DsFQdZIZVZ7Zx_EwmI96Q-eWV_gzW4k0dlyUE3fxzqBtyPHDdUpJOLBhxHdqej5sU9NYAN1Ze0o8djGJbGOZFjz4NQla0uCPyOPcqb2bQ1LUnu5JtsnAxfpAvHefjuIw2v-0B9CTCHq05z0rvyS1QgXItFIT0BJTgRSqdC_VcwCRw-gOUYNXBsbANY"/>
+</div>
+<span class="text-label-sm font-label-sm text-secondary">@JKHealthDev</span>
+</div>
+<span class="text-label-sm text-primary font-bold">Help Wanted</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-24 bg-surface-container-low">
+<div class="max-w-3xl mx-auto px-lg">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-primary mb-4">Common Questions</h2>
+<p class="text-on-surface-variant">Everything you need to know about joining the JKOSI movement.</p>
+</div>
+<div class="space-y-4">
+<details class="group bg-surface border border-outline-variant/30 rounded-xl overflow-hidden" open="">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<h4 class="font-headline-md text-[18px] text-primary">Who can submit a project to JKOSI?</h4>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-surface-variant font-body-md">
+                        Anyone can submit! We prioritize projects built by developers in Jammu &amp; Kashmir or projects that specifically solve regional challenges. The only hard requirement is that the project must be released under an OSI-approved open-source license.
+                    </div>
+</details>
+<details class="group bg-surface border border-outline-variant/30 rounded-xl overflow-hidden">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<h4 class="font-headline-md text-[18px] text-primary">What happens after I submit my project?</h4>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-surface-variant font-body-md">
+                        Your project enters our evaluation queue. A community council member will review your codebase, documentation, and security standards within 5-7 business days. You'll receive feedback or an approval notification via GitHub.
+                    </div>
+</details>
+<details class="group bg-surface border border-outline-variant/30 rounded-xl overflow-hidden">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<h4 class="font-headline-md text-[18px] text-primary">Is there mentorship available for beginners?</h4>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-surface-variant font-body-md">
+                        Yes! Our "Mentorship Program" pairs experienced developers with students and beginners. We also host monthly virtual office hours and workshops to help new contributors get started with their first pull requests.
+                    </div>
+</details>
+<details class="group bg-surface border border-outline-variant/30 rounded-xl overflow-hidden">
+<summary class="flex justify-between items-center p-6 cursor-pointer list-none">
+<h4 class="font-headline-md text-[18px] text-primary">Do I need to be in J&amp;K to contribute?</h4>
+<span class="material-symbols-outlined group-open:rotate-180 transition-transform">expand_more</span>
+</summary>
+<div class="px-6 pb-6 text-on-surface-variant font-body-md">
+                        While our primary focus is regional talent, we welcome contributors from all over the world. Many of our mentors and key contributors are J&amp;K diaspora or global open-source enthusiasts who want to support the region's growth.
+                    </div>
+</details>
+</div>
+</div>
+</section>
+<!-- Community Call to Action -->
+<section class="py-24 bg-primary text-on-primary overflow-hidden relative">
+<div class="absolute top-0 right-0 w-1/3 h-full opacity-10 transition-all duration-700"></div>
+<div class="max-w-container-max mx-auto px-lg relative z-10 text-center">
+<h2 class="font-headline-xl text-headline-xl mb-6">Ready to contribute to the region's future?</h2>
+<p class="font-body-lg text-body-lg text-on-primary/80 mb-10 max-w-2xl mx-auto">Join a network of over 1,500 contributors building the foundation of Jammu &amp; Kashmir's digital sovereignty.</p>
+<div class="flex flex-col sm:flex-row justify-center gap-4">
+<button class="px-10 py-4 bg-on-primary text-primary font-headline-md text-headline-md rounded-lg hover:bg-primary-fixed transition-all">Join the Community</button>
+<button class="px-10 py-4 bg-transparent border-2 border-on-primary text-on-primary font-headline-md text-headline-md rounded-lg hover:bg-on-primary/10 transition-all">Read Guidelines</button>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-xl px-lg mt-auto border-t border-outline-variant dark:border-outline bg-surface-container dark:bg-surface-container-high">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+<div class="col-span-1 md:col-span-2">
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim block mb-4 font-headline-lg">JKOSI</span>
+<p class="text-on-secondary-container dark:text-on-secondary-fixed-variant max-w-sm mb-6 font-body-md">
+                    Jammu &amp; Kashmir Open Source Initiative is a community-led non-profit focused on building local tech capacity through global standards.
+                </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">hub</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">forum</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-on-primary transition-all" href="#">
+<span class="material-symbols-outlined">code</span>
+</a>
+</div>
+</div>
+<div>
+<h5 class="text-primary font-bold mb-4 font-label-md">Navigation</h5>
+<ul class="space-y-3">
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">About Us</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Guidelines</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Privacy Policy</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Contact Support</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-primary font-bold mb-4 font-label-md">Ecosystem</h5>
+<ul class="space-y-3">
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">GitHub</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Discord</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Newsletter</a></li>
+<li class=""><a class="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Mentorship</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-outline-variant/30 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-label-sm text-label-sm text-on-secondary-container">
+                © 2024 Jammu &amp; Kashmir Open Source Initiative. Empowering regional innovation through open collaboration.
+            </p>
+<div class="flex gap-6">
+<span class="font-label-sm text-label-sm text-on-secondary-container cursor-pointer hover:text-primary">Terms</span>
+<span class="font-label-sm text-label-sm text-on-secondary-container cursor-pointer hover:text-primary">Cookies</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    // Micro-interaction for project cards
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+
+    // Intersection Observer for fade-in effects
+    const observerOptions = {
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('opacity-100', 'translate-y-0');
+                entry.target.classList.remove('opacity-0', 'translate-y-10');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('section > div').forEach(el => {
+        el.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+        observer.observe(el);
+    });
+</script>
+</body></html>
