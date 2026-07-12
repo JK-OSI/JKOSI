@@ -19,6 +19,10 @@ ENV PAYLOAD_SECRET=docker_build_secret_key_mock
 
 RUN npm run build
 
+# Prune devDependencies to keep the runner stage lightweight
+RUN npm prune --omit=dev
+
+
 # Stage 3: Lightweight production runner
 FROM node:20-alpine AS runner
 WORKDIR /app
