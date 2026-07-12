@@ -12,6 +12,26 @@ import { Submissions } from './src/collections/Submissions'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+// All database config comes from separate environment variables.
+// Set these in your .env file — no hardcoded fallbacks in production.
+const {
+  DB_HOST,
+  DB_PORT = '5432',
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  PAYLOAD_SECRET,
+} = process.env
+
+if (!DB_HOST || !DB_USER || !DB_PASSWORD || !DB_NAME) {
+  console.warn(
+    '[JKOSI] Warning: One or more database environment variables are missing (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME). ' +
+    'The app may fail to connect to the database. Please check your .env file.'
+  )
+}
+
+const connectionString = `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -21,20 +41,16 @@ export default buildConfig({
   },
   collections: [Users, Members, Repositories, Submissions],
   editor: lexicalEditor({}),
-  secret: process.env.PAYLOAD_SECRET || 'ab6a1f695e4c043a3jkosiplatformsecretkey',
+  secret: PAYLOAD_SECRET || (() => { throw new Error('[JKOSI] PAYLOAD_SECRET env variable is not set.') })(),
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
     // Automatically create / sync all collection tables on startup.
-    // Safe for production: it only creates missing tables, never drops existing data.
+    // Safe for production: only creates missing tables, never drops existing data.
     push: true,
     pool: {
-      connectionString: process.env.DATABASE_URL || (
-        process.env.DB_HOST
-          ? `postgres://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASSWORD || 'postgres'}@${process.env.DB_HOST}:${process.env.DB_PORT || '5432'}/${process.env.DB_NAME || 'jkosi'}`
-          : 'postgres://postgres:postgres@127.0.0.1:5432/jkosi'
-      ),
+      connectionString,
     },
   }),
 })
