@@ -5,6 +5,14 @@ export const Submissions: CollectionConfig = {
   admin: {
     useAsTitle: 'projectName',
   },
+  // Anyone can submit a project, but only admins can review/manage submissions
+  access: {
+    read: ({ req: { user } }) => user?.role === 'admin',
+    create: () => true, // Public submit form posts here
+    update: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => user?.role === 'admin',
+    admin: ({ req: { user } }) => user?.role === 'admin',
+  },
   fields: [
     {
       name: 'projectName',

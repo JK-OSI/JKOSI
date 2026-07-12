@@ -5,6 +5,14 @@ export const Repositories: CollectionConfig = {
   admin: {
     useAsTitle: 'name',
   },
+  // Public can read approved repositories, but only admins can modify
+  access: {
+    read: () => true, // Public directory is fully readable
+    create: ({ req: { user } }) => user?.role === 'admin',
+    update: ({ req: { user } }) => user?.role === 'admin',
+    delete: ({ req: { user } }) => user?.role === 'admin',
+    admin: ({ req: { user } }) => user?.role === 'admin',
+  },
   fields: [
     {
       name: 'name',
