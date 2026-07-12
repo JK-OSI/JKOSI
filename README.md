@@ -68,17 +68,17 @@ The goal is to give regional developers a home — a credible, searchable index 
 
 ```mermaid
 graph TD
-    U[Developer] -->|Fills submission form| SW[/submit page]
-    SW -->|POST /api/submissions| SDB[(Submissions Table)]
+    U["Developer"] -->|"Fills submission form"| SW["Submit Page /submit"]
+    SW -->|"POST /api/submissions"| SDB[("Submissions Table")]
 
-    A[Admin] -->|Reviews in /admin| AP[Payload Admin Panel]
-    AP -->|Sets status = approved| AH{afterChange Hook}
-    AH -->|Finds or creates| MDB[(Members Table)]
-    AH -->|Creates entry| RDB[(Repositories Table)]
+    A["Admin"] -->|"Reviews in /admin"| AP["Payload Admin Panel"]
+    AP -->|"Sets status = approved"| AH{"afterChange Hook"}
+    AH -->|"Finds or creates"| MDB[("Members Table")]
+    AH -->|"Creates entry"| RDB[("Repositories Table")]
 
-    V[Public Visitor] -->|Browses /projects| FE[Next.js Frontend]
-    FE -->|payload.find repositories| RDB
-    FE -->|Fetches live bio| GH[GitHub API]
+    V["Public Visitor"] -->|"Browses /projects"| FE["Next.js Frontend"]
+    FE -->|"payload.find repositories"| RDB
+    FE -->|"Fetches live bio"| GH["GitHub API"]
 ```
 
 ---
