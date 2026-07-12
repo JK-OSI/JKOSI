@@ -1,128 +1,246 @@
-# JKOSI Registry Platform 🌐
+<p align="center">
+  <img src="public/jkosi_hero_mockup.png" alt="JKOSI Platform" width="100%" style="border-radius: 16px;" />
+</p>
+
+<h1 align="center">JKOSI — Jammu & Kashmir Open Source Initiative</h1>
 
 <p align="center">
-  <img src="public/jkosi_hero_mockup.png" alt="JKOSI Platform Hero Mockup" width="100%" style="border-radius: 16px; border: 1px solid #1f2937;" />
+  A curated open-source registry platform connecting developers, researchers, and students across the Kashmir valley with the global open-source community.
 </p>
 
 <p align="center">
-  <a href="https://github.com/Suhar121/JKOSI/blob/main/LICENSE"><img src="https://img.shields.io/github/license/Suhar121/JKOSI?color=blue&style=flat-square" alt="License" /></a>
-  <img src="https://img.shields.io/badge/next.js-v16.2-black?style=flat-square&logo=next.js" alt="Next.js Version" />
-  <img src="https://img.shields.io/badge/payload-v3.0-green?style=flat-square&logo=payload" alt="Payload CMS Version" />
-  <img src="https://img.shields.io/badge/database-postgresql-blue?style=flat-square&logo=postgresql" alt="PostgreSQL Database" />
-  <a href="https://github.com/Suhar121/JKOSI/pulls"><img src="https://img.shields.io/badge/PRs-welcome-orange?style=flat-square" alt="PRs Welcome" /></a>
+  <a href="https://github.com/JK-OSI/JKOSI/blob/main/LICENSE"><img src="https://img.shields.io/github/license/JK-OSI/JKOSI?color=2ea44f&style=flat-square" alt="MIT License" /></a>
+  <a href="https://github.com/JK-OSI/JKOSI/actions"><img src="https://img.shields.io/github/actions/workflow/status/JK-OSI/JKOSI/ci.yml?branch=main&style=flat-square&label=CI" alt="CI Status" /></a>
+  <img src="https://img.shields.io/badge/Next.js-v16-black?style=flat-square&logo=next.js" alt="Next.js" />
+  <img src="https://img.shields.io/badge/Payload_CMS-v3-7C3AED?style=flat-square" alt="Payload CMS v3" />
+  <img src="https://img.shields.io/badge/PostgreSQL-15-336791?style=flat-square&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <a href="https://github.com/JK-OSI/JKOSI/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square" alt="PRs Welcome" /></a>
 </p>
 
 ---
 
-## 📖 Project Overview
+## Table of Contents
 
-The **Jammu & Kashmir Open Source Initiative (JKOSI)** registry is a dynamic, high-fidelity platform designed to catalog, review, and promote verified open-source software, telemetry tools, ML models, and digital utilities developed in the region. 
-
-It connects local developers, researchers, and students with global open-source contributors, offering a curated directory audited to meet strict code quality and security standards.
+- [About the Project](#about-the-project)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Local Development](#local-development)
+  - [Docker Setup](#docker-setup)
+- [Environment Variables](#environment-variables)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [Security](#security)
+- [License](#license)
 
 ---
 
-## ⚡ Key Technical Highlights
+## About the Project
 
-* **🎨 Volumetric Glassmorphic Design**: An immersive, premium dark-themed interface built on the *Spruce Moss* colorway, utilizing custom WebGL canvas wave animations, bento-grid layouts, and rotating showcase carousels.
-* **🛡️ Client-Side Input Guardrails**: A staged submission wizard equipped with strict regex validation to verify GitHub repository schemas, email formats, and maintainer details.
-* **🐙 Live GitHub Profile Sync**: If a project owner's biography is blank in the registry database, the server automatically queries the official GitHub API to fetch and display their live biography.
-* **📂 Strict Relational Schema**: A normalized 3NF PostgreSQL database architecture managing users, repositories, submissions, and technology stacks without redundant text blobs or JSON arrays.
-* **⚙️ Automated Review Hook**: Staged submissions undergo a 2-step audit. On admin approval, database hooks resolve owner mappings (avoiding collisions) and transfer files to the public directory.
+**JKOSI** (Jammu & Kashmir Open Source Initiative) is a regional open-source registry designed to catalog, audit, and promote software projects built by developers from Jammu & Kashmir.
+
+The platform provides:
+- A **public directory** of verified open-source projects with live GitHub stats
+- An **admin-controlled review pipeline** where submissions are audited before going public
+- A **submission portal** for developers to list their work for review
+- A **member directory** tracking contributors across the ecosystem
+
+The goal is to give regional developers a home — a credible, searchable index of their work that connects them to global opportunities and contributors.
 
 ---
 
-## 🏗️ Platform Architecture
+## Features
 
-The diagram below outlines the full lifecycle of a project submission, admin audit, and public rendering:
+- 🌙 **Premium Dark UI** — Glassmorphic design with animated canvas waves and rotating project carousels
+- 🔍 **Real-time Search & Filter** — Search projects by name, filter by category (Web, AI/ML, Mobile, IoT, Blockchain)
+- 📋 **Submission Wizard** — Multi-step form with live validation for GitHub URL, email, and tech stack
+- ⚙️ **Auto-approval Pipeline** — Admin approves a submission → member profile and repository entry are created automatically via Payload hooks
+- 🐙 **GitHub API Integration** — Fetches live author bios from GitHub if not provided in the database
+- 🛡️ **Role-based Access Control** — Separate `admin` and `editor` roles with collection-level and field-level permissions
+- 🗄️ **Relational PostgreSQL Schema** — Normalized collections: `users`, `members`, `repositories`, `submissions`
+- 🐳 **Docker-first Deployment** — Full Docker + Docker Compose setup for zero-friction hosting
+
+---
+
+## Architecture
 
 ```mermaid
 graph TD
-    %% User Submission Flow
-    U[Developer / Submitter] -->|1. Fills Wizard| SW[Submit Wizard]
-    SW -->|2. POST /api/submissions| SDB[(PostgreSQL: Submissions)]
-    
-    %% Admin Approval Flow
-    A[Admin / Auditor] -->|3. Reviews & Approves| AP[Payload Admin Panel]
-    AP -->|4. Trigger hook| AH{afterChange Hook}
-    AH -->|5. Look up / Create Owner| UDB[(PostgreSQL: Users)]
-    AH -->|6. Transfer details| RDB[(PostgreSQL: Repositories)]
-    
-    %% Visitor View Flow
-    V[Public Visitor] -->|7. Visits Site| HP[Next.js SSR Frontend]
-    HP -->|8. Fetch approved| RDB
-    HP -->|9. Render Dynamic Bio| GH[GitHub API]
+    U[Developer] -->|Fills submission form| SW[/submit page]
+    SW -->|POST /api/submissions| SDB[(Submissions Table)]
+
+    A[Admin] -->|Reviews in /admin| AP[Payload Admin Panel]
+    AP -->|Sets status = approved| AH{afterChange Hook}
+    AH -->|Finds or creates| MDB[(Members Table)]
+    AH -->|Creates entry| RDB[(Repositories Table)]
+
+    V[Public Visitor] -->|Browses /projects| FE[Next.js Frontend]
+    FE -->|payload.find repositories| RDB
+    FE -->|Fetches live bio| GH[GitHub API]
 ```
 
 ---
 
-## 🚀 Installation & Local Setup
+## Tech Stack
 
-Follow these steps to run a local instance of the JKOSI registry:
+| Layer | Technology |
+|---|---|
+| **Frontend** | Next.js 16 (App Router, Turbopack) |
+| **CMS / Backend** | Payload CMS v3 |
+| **Database** | PostgreSQL 15 |
+| **ORM / DB Adapter** | `@payloadcms/db-postgres` (Drizzle) |
+| **Styling** | Tailwind CSS v4 + Custom Design Tokens |
+| **Containerization** | Docker + Docker Compose |
+| **CI** | GitHub Actions |
 
-### 1. Prerequisites
-* **Node.js** v20.x or higher
-* **PostgreSQL** instance running locally or hosted (e.g. Supabase, Neon)
+---
 
-### 2. Configure Environment
-Create a `.env` file in the root of the project:
-```env
-DATABASE_URL=postgres://your_user:your_password@127.0.0.1:5432/jkosi
-PAYLOAD_SECRET=your_generated_payload_secret_key
-NEXT_PUBLIC_SERVER_URL=http://localhost:3000
+## Getting Started
+
+### Prerequisites
+
+- **Node.js** v20 or higher
+- **PostgreSQL** 15 (local, Docker, or hosted via [Neon](https://neon.tech) / [Supabase](https://supabase.com))
+- **npm** v10+
+
+---
+
+### Local Development
+
+**1. Clone the repository**
+```bash
+git clone https://github.com/JK-OSI/JKOSI.git
+cd JKOSI
 ```
 
-### 3. Install Dependencies
+**2. Install dependencies**
 ```bash
 npm install
 ```
 
-### 4. Run Development Server
+**3. Configure environment variables**
+```bash
+cp .env.example .env
+```
+Edit `.env` and fill in your database credentials and Payload secret. See [Environment Variables](#environment-variables) for details.
+
+**4. Start the development server**
 ```bash
 npm run dev
 ```
-* **Frontend Site**: [http://localhost:3000](http://localhost:3000)
-* **Admin Control Panel**: [http://localhost:3000/admin](http://localhost:3000/admin)
 
-### 5. Production Compilation
-To build and optimize the project for production deployments:
+| URL | Purpose |
+|---|---|
+| `http://localhost:3000` | Public frontend |
+| `http://localhost:3000/admin` | Payload CMS admin panel |
+
+On first visit to `/admin`, you will be prompted to create your first admin account.
+
+---
+
+### Docker Setup
+
+Docker Compose spins up the Next.js app and a PostgreSQL database together. No local PostgreSQL installation required.
+
+**1. Copy and fill in the environment file**
 ```bash
-npm run build
-npm run start
+cp .env.example .env
+# Edit .env with your values
 ```
 
-### 🐳 6. Running with Docker & Docker Compose
-For an automated, zero-config environment (launches both Next.js and a local PostgreSQL database container):
+**2. Build and start containers**
 ```bash
-# Build and run the containers
 docker compose up --build
 ```
-Once initialized, the platform will be available at [http://localhost:3000](http://localhost:3000) and the database will be fully configured automatically.
+
+**3. Stop containers**
+```bash
+docker compose down
+```
+
+The app will be available at `http://localhost:${APP_PORT}` (default: `http://localhost:3001`).
+
+> The database schema is created automatically on first startup via Payload's `push: true` adapter setting — no manual migration step is needed.
 
 ---
 
-## 🤝 Contribution Workflow
+## Environment Variables
 
-We welcome contributions from developers, designers, and documentation writers! To contribute:
+Copy `.env.example` to `.env` and set these values:
 
-1. **Fork the Repository**: Create a personal copy of this repository on GitHub.
-2. **Clone Locally**: 
-   ```bash
-   git clone https://github.com/Suhar121/JKOSI.git
-   cd JKOSI
-   ```
-3. **Create a Feature Branch**: 
-   ```bash
-   git checkout -b feat/your-awesome-feature
-   ```
-4. **Commit Your Code**: Keep commit messages clear and concise (e.g., following Conventional Commits guidelines).
-5. **Open a Pull Request**: Submit your PR back to our `main` branch.
+| Variable | Description | Required |
+|---|---|---|
+| `APP_PORT` | Host port Docker maps to (e.g. `3001`) | Yes |
+| `NEXT_PUBLIC_SERVER_URL` | Full public URL of the app (e.g. `https://yourdomain.com`) | Yes |
+| `DB_HOST` | PostgreSQL hostname (`db` when using Docker Compose) | Yes |
+| `DB_PORT` | PostgreSQL port (default: `5432`) | Yes |
+| `DB_USER` | PostgreSQL username | Yes |
+| `DB_PASSWORD` | PostgreSQL password | Yes |
+| `DB_NAME` | PostgreSQL database name | Yes |
+| `PAYLOAD_SECRET` | Random secret for signing sessions and JWT tokens. Generate with: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` | Yes |
 
-Please review our [Guidelines](/guidelines) and [Code of Conduct](/guidelines#conduct) before submitting contributions.
+> **Security**: Never commit your `.env` file. The `.gitignore` is pre-configured to exclude it.
 
 ---
 
-## 📄 Licensing
+## Project Structure
 
-This project is open-source software licensed under the [MIT License](LICENSE). 
-Copyright (c) 2026 Jammu & Kashmir Open Source Initiative.
+```
+JKOSI/
+├── src/
+│   ├── app/
+│   │   ├── (frontend)/       # Public-facing Next.js pages
+│   │   │   ├── page.tsx      # Home page
+│   │   │   ├── projects/     # Project directory + detail pages
+│   │   │   └── submit/       # Submission wizard
+│   │   ├── (payload)/        # Payload admin routes
+│   │   └── api/              # Payload REST API (auto-generated)
+│   ├── collections/
+│   │   ├── Users.ts          # Admin-only auth accounts
+│   │   ├── Members.ts        # Public developer profiles
+│   │   ├── Repositories.ts   # Approved open-source projects
+│   │   └── Submissions.ts    # Incoming project submissions
+│   └── components/           # Shared UI components
+├── payload.config.ts          # Payload CMS configuration
+├── docker-compose.yml         # Container orchestration
+├── Dockerfile                 # Multi-stage production build
+└── .env.example               # Environment variable template
+```
+
+---
+
+## Contributing
+
+We welcome contributions from everyone. Please read [CONTRIBUTING.md](CONTRIBUTING.md) before submitting a pull request.
+
+**Quick start for contributors:**
+
+```bash
+# Fork and clone
+git clone https://github.com/JK-OSI/JKOSI.git
+
+# Create a branch
+git checkout -b feat/your-feature-name
+
+# Make changes, then commit using Conventional Commits
+git commit -m "feat: add dark mode toggle"
+
+# Open a Pull Request against main
+```
+
+Please also review our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+---
+
+## Security
+
+If you discover a security vulnerability, **do not open a public issue**. Please follow the responsible disclosure process outlined in [SECURITY.md](SECURITY.md).
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).  
+Copyright © 2026 Jammu & Kashmir Open Source Initiative.
