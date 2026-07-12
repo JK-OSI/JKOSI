@@ -10,6 +10,9 @@ import LineWaves from "@/components/LineWaves";
 export default function Home() {
   const [featuredProjects, setFeaturedProjects] = useState<any[]>([]);
   const [allProjects, setAllProjects] = useState<any[]>([]);
+  const [subEmail, setSubEmail] = useState('');
+  const [subStatus, setSubStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [subMessage, setSubMessage] = useState('');
 
   useEffect(() => {
     fetch('/api/repositories?limit=3&depth=1')
@@ -682,12 +685,43 @@ export default function Home() {
               <input
                 type="email"
                 placeholder="Enter your email address"
+                value={subEmail}
+                onChange={(e) => { setSubEmail(e.target.value); setSubStatus('idle') }}
                 className="w-full px-6 py-4 bg-surface border border-outline rounded-full text-label-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent font-sans"
               />
-              <button className="w-full sm:w-auto px-8 py-4 bg-primary text-on-primary font-bold text-label-md rounded-full hover:opacity-90 transition-opacity whitespace-nowrap">
-                Join Community
+              <button
+                onClick={async () => {
+                  setSubStatus('loading')
+                  try {
+                    const res = await fetch('/api/subscribe', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({ email: subEmail }),
+                    })
+                    const data = await res.json()
+                    if (res.ok) {
+                      setSubStatus('success')
+                      setSubMessage(data.message)
+                      setSubEmail('')
+                    } else {
+                      throw new Error(data.error || 'Failed to subscribe')
+                    }
+                  } catch (err) {
+                    setSubStatus('error')
+                    setSubMessage((err as Error).message)
+                  }
+                }}
+                disabled={subStatus === 'loading' || !subEmail}
+                className="w-full sm:w-auto px-8 py-4 bg-primary text-on-primary font-bold text-label-md rounded-full hover:opacity-90 transition-opacity disabled:opacity-50 whitespace-nowrap"
+              >
+                {subStatus === 'loading' ? 'Subscribing...' : 'Join Community'}
               </button>
             </div>
+            {subMessage && (
+              <p className={`text-sm mt-4 font-mono ${subStatus === 'success' ? 'text-primary' : 'text-red-500'}`}>
+                {subMessage}
+              </p>
+            )}
             <p className="text-[10px] text-on-surface-variant/50 mt-6 font-mono tracking-wider uppercase">
               NO SPAM · BI-WEEKLY NEWSLETTER ONLY
             </p>
