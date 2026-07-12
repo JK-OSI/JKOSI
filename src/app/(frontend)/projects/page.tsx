@@ -1,39 +1,34 @@
-import { getPayload } from 'payload'
-import config from '../../../../payload.config'
 import ProjectsClient, { Project } from './ProjectsClient'
 import { Suspense } from 'react'
 
-export default async function Projects() {
-  let projects: Project[] = []
-  
+const API_BASE = process.env.NEXT_PUBLIC_SERVER_URL || ''
+
+async function fetchProjects(): Promise<Project[]> {
   try {
-    const payload = await getPayload({ config })
-    const res = await payload.find({
-      collection: 'repositories',
-      limit: 100,
-      depth: 1, // populate owner (Member) relationship
+    const res = await fetch(`${API_BASE}/api/repositories?limit=100`, {
+      next: { revalidate: 60 },
     })
-    
-    if (res.docs && res.docs.length > 0) {
-      projects = res.docs.map((doc: any) => {
-        const authorName = doc.owner && typeof doc.owner === 'object' ? doc.owner.githubUsername || 'anonymous' : 'anonymous'
-        return {
-          id: String(doc.id),
-          name: doc.name,
-          desc: doc.description || '',
-          repo: doc.url,
-          category: doc.category || 'Web',
-          author: authorName,
-          stars: doc.stars || 0,
-          commits: doc.commits || 0,
-          tags: doc.tags?.map((t: any) => t.tag) || [],
-          authorImage: `https://github.com/${authorName.replace(/^@/, '')}.png`,
-        }
-      })
-    }
-  } catch (error) {
-    console.error('Failed to load projects from database:', error)
+    if (!res.ok) return []
+    const data = await res.json()
+    return (data.docs || []).map((d: any) => ({
+      id: String(d.id),
+      name: d.name,
+      desc: d.description || '',
+      repo: d.url,
+      category: d.category || 'Web',
+      author: d.owner?.githubUsername || 'anonymous',
+      stars: d.stars || 0,
+      commits: d.commits || 0,
+      tags: d.tags?.map((t: any) => t.tag) || [],
+      authorImage: `https://github.com/${(d.owner?.githubUsername || 'anonymous').replace(/^@/, '')}.png`,
+    }))
+  } catch {
+    return []
   }
+}
+
+export default async function Projects() {
+  const projects = await fetchProjects()
 
   return (
     <Suspense fallback={null}>
