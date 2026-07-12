@@ -5,8 +5,9 @@ import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import rehypeRaw from 'rehype-raw'
 import { notFound } from "next/navigation";
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 
-const API_BASE = process.env.NEXT_PUBLIC_SERVER_URL || ''
+export const dynamic = 'force-dynamic'
 
 async function getGithubBio(username: string): Promise<string | null> {
   try {
@@ -25,28 +26,75 @@ async function getGithubBio(username: string): Promise<string | null> {
   return null;
 }
 
+function getDB() {
+  const ctx = getCloudflareContext()
+  return (ctx.env as Record<string, unknown>).DB as {
+    prepare(sql: string): {
+      bind(...args: unknown[]): {
+        first<T = Record<string, unknown>>(): Promise<T | null>
+        all<T = Record<string, unknown>>(): Promise<{ results: T[] }>
+      }
+    }
+  }
+}
+
 async function fetchProject(id: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/repositories/${id}`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return null;
-    return await res.json();
+    const db = getDB()
+    const row = await db.prepare(`
+      SELECT r.*, m.github_username AS owner_github,
+        (SELECT GROUP_CONCAT(rt.tag, ',') FROM repository_tags rt WHERE rt.repository_id = r.id) AS tags
+      FROM repositories r LEFT JOIN members m ON r.owner_id = m.id WHERE r.id = ?
+    `).bind(id).first()
+
+    if (!row) return null
+
+    return {
+      id: (row as any).id as string,
+      name: (row as any).name as string,
+      url: (row as any).url as string,
+      description: (row as any).description as string | null,
+      stars: (row as any).stars as number || 0,
+      commits: (row as any).commits as number || 0,
+      category: (row as any).category as string || 'Web',
+      owner: (row as any).owner_id ? { id: (row as any).owner_id as string, githubUsername: (row as any).owner_github as string } : null,
+      tags: (row as any).tags ? ((row as any).tags as string).split(',').filter(Boolean).map((t: string) => ({ tag: t })) : [],
+      createdAt: (row as any).created_at as string,
+      updatedAt: (row as any).updated_at as string,
+    }
   } catch {
-    return null;
+    return null
   }
 }
 
 async function fetchSuggestedProjects(excludeId: string) {
   try {
-    const res = await fetch(`${API_BASE}/api/repositories?limit=3`, {
-      next: { revalidate: 60 },
-    });
-    if (!res.ok) return [];
-    const data = await res.json();
-    return (data.docs || []).filter((d: any) => String(d.id) !== excludeId).slice(0, 3);
+    const db = getDB()
+    const { results } = await db.prepare(`
+      SELECT r.*, m.github_username AS owner_github,
+        (SELECT GROUP_CONCAT(rt.tag, ',') FROM repository_tags rt WHERE rt.repository_id = r.id) AS tags
+      FROM repositories r LEFT JOIN members m ON r.owner_id = m.id
+      ORDER BY r.stars DESC, r.created_at DESC LIMIT 3
+    `).bind().all()
+
+    return results
+      .filter((d: any) => String(d.id) !== excludeId)
+      .slice(0, 3)
+      .map((d: any) => ({
+        id: String(d.id),
+        name: d.name as string,
+        url: d.url as string,
+        description: d.description as string | null,
+        stars: (d.stars as number) || 0,
+        commits: (d.commits as number) || 0,
+        category: (d.category as string) || 'Web',
+        owner: d.owner_id ? { id: d.owner_id as string, githubUsername: d.owner_github as string } : null,
+        tags: d.tags ? ((d.tags as string).split(',').filter(Boolean).map((t: string) => ({ tag: t }))) : [],
+        createdAt: d.created_at as string,
+        updatedAt: d.updated_at as string,
+      }))
   } catch {
-    return [];
+    return []
   }
 }
 
@@ -79,12 +127,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
   }
 
   const authorName = dbProject.owner?.githubUsername || 'anonymous'
-  let authorBio = dbProject.owner?.bio || ''
-  if (!authorBio && authorName !== 'anonymous') {
-    authorBio = await getGithubBio(authorName) || "Open-source developer contributing to regional tech capacity in Jammu & Kashmir.";
-  } else if (!authorBio) {
-    authorBio = "Open-source developer contributing to regional tech capacity in Jammu & Kashmir.";
-  }
+  const authorBio = "Open-source developer contributing to regional tech capacity in Jammu & Kashmir.";
 
   const project = {
     id: String(dbProject.id),
@@ -344,7 +387,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
                       className="text-xs font-mono font-bold text-primary uppercase bg-primary/10 hover:bg-primary/20 px-3 py-1.5 rounded-full transition-colors flex items-center gap-1"
                       href={`/projects/${sProj.id}`}
                     >
-                      View <span className="material-symbols-outlined text-[12px]">arrow_forward</span>
+                      View <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
                     </Link>
                   </div>
                 </div>

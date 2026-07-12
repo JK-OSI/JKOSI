@@ -1,26 +1,40 @@
 import ProjectsClient, { Project } from './ProjectsClient'
 import { Suspense } from 'react'
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 
-const API_BASE = process.env.NEXT_PUBLIC_SERVER_URL || ''
+export const dynamic = 'force-dynamic'
 
 async function fetchProjects(): Promise<Project[]> {
   try {
-    const res = await fetch(`${API_BASE}/api/repositories?limit=100`, {
-      next: { revalidate: 60 },
-    })
-    if (!res.ok) return []
-    const data = await res.json()
-    return (data.docs || []).map((d: any) => ({
+    const ctx = getCloudflareContext()
+    const db = (ctx.env as Record<string, unknown>).DB as {
+      prepare(sql: string): {
+        bind(...args: unknown[]): {
+          all<T = Record<string, unknown>>(): Promise<{ results: T[] }>
+        }
+      }
+    }
+
+    const { results } = await db.prepare(`
+      SELECT r.*, m.github_username AS owner_github,
+        (SELECT GROUP_CONCAT(rt.tag, ',') FROM repository_tags rt WHERE rt.repository_id = r.id) AS tags
+      FROM repositories r
+      LEFT JOIN members m ON r.owner_id = m.id
+      ORDER BY r.stars DESC, r.created_at DESC
+      LIMIT 100
+    `).bind().all()
+
+    return results.map((d: any) => ({
       id: String(d.id),
-      name: d.name,
-      desc: d.description || '',
-      repo: d.url,
-      category: d.category || 'Web',
-      author: d.owner?.githubUsername || 'anonymous',
-      stars: d.stars || 0,
-      commits: d.commits || 0,
-      tags: d.tags?.map((t: any) => t.tag) || [],
-      authorImage: `https://github.com/${(d.owner?.githubUsername || 'anonymous').replace(/^@/, '')}.png`,
+      name: d.name as string,
+      desc: (d.description as string) || '',
+      repo: d.url as string,
+      category: (d.category as string) || 'Web',
+      author: (d.owner_github as string) || 'anonymous',
+      stars: (d.stars as number) || 0,
+      commits: (d.commits as number) || 0,
+      tags: d.tags ? ((d.tags as string).split(',').filter(Boolean)) : [],
+      authorImage: `https://github.com/${((d.owner_github as string) || 'anonymous').replace(/^@/, '')}.png`,
     }))
   } catch {
     return []
