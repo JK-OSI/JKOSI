@@ -8,6 +8,7 @@ import { Users } from './src/collections/Users'
 import { Members } from './src/collections/Members'
 import { Repositories } from './src/collections/Repositories'
 import { Submissions } from './src/collections/Submissions'
+import { migrations } from './src/migrations/index'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -46,9 +47,11 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: postgresAdapter({
-    // Automatically create / sync all collection tables on startup.
-    // Safe for production: only creates missing tables, never drops existing data.
-    push: true,
+    // Automatically create / sync all collection tables only in development mode.
+    // In production, migrations will handle schema updates.
+    push: process.env.NODE_ENV !== 'production',
+    migrationDir: path.resolve(dirname, 'src/migrations'),
+    prodMigrations: migrations,
     pool: {
       connectionString,
     },

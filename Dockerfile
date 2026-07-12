@@ -42,7 +42,8 @@ COPY --from=builder /app/payload.config.ts ./payload.config.ts
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/src/collections ./src/collections
+COPY --from=builder /app/src/migrations ./src/migrations
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "npm run payload migrate && npm run start"]
