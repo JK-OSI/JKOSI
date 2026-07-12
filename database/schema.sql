@@ -78,9 +78,7 @@ CREATE TABLE IF NOT EXISTS subscribers (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
--- Seed the default admin user (password: admin123 — change immediately)
--- Password hash is PBKDF2-SHA256 with 100000 iterations, salt is fixed for reproducibility
-INSERT OR IGNORE INTO users (id, email, password_hash, role)
-VALUES ('seed-admin', 'admin@jkosi.org',
-  'b84974eaac4a9dd39a4723267bcc0a45:3c8101a5018df1537d8d1ae8c1bec2ef57e3a7a1fc702ebb3db9537576b1eceb',
-  'admin');
+-- Seed the default admin user
+-- Run `ADMIN_PASSWORD=<password> npm run db:seed-admin` to seed or update the admin password.
+-- This script is NOT a migration — it builds and applies the hash from an env var.
+-- The old approach of hardcoding a hash in this file was removed for security reasons.

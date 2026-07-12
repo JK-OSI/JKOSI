@@ -12,7 +12,10 @@ function base64UrlDecode(str: string): string {
 
 async function getSecret(): Promise<CryptoKey> {
   const ctx = getCloudflareContext()
-  const secret = ((ctx.env as Record<string, string>).JWT_SECRET) || 'jkosi-default-secret-change-me'
+  const secret = (ctx.env as Record<string, string>).JWT_SECRET
+  if (!secret) {
+    throw new Error('JWT_SECRET environment variable is not set')
+  }
   const encoder = new TextEncoder()
   return crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign', 'verify'])
 }

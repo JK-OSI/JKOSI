@@ -19,8 +19,5 @@
 	],
 	"observability": {
 		"enabled": true
-	},
-	"vars": {
-		"JWT_SECRET": "replace-with-a-random-secret"
 	}
 }

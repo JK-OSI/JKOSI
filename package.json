@@ -12,7 +12,9 @@
     "preview:cf": "opennextjs-cloudflare build && opennextjs-cloudflare preview",
     "deploy:cf": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "db:migrate": "wrangler d1 execute jkosi-db --remote --file=./database/schema.sql",
-    "db:migrate:local": "wrangler d1 execute jkosi-db --local --file=./database/schema.sql"
+    "db:migrate:local": "wrangler d1 execute jkosi-db --local --file=./database/schema.sql",
+    "db:seed-admin": "node scripts/seed-admin.mjs > /tmp/seed-admin-tmp.sql && wrangler d1 execute jkosi-db --remote --file=/tmp/seed-admin-tmp.sql",
+    "db:seed-admin:local": "node scripts/seed-admin.mjs > /tmp/seed-admin-tmp.sql && wrangler d1 execute jkosi-db --local --file=/tmp/seed-admin-tmp.sql"
   },
   "dependencies": {
     "motion": "^12.42.2",
