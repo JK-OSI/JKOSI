@@ -19,11 +19,7 @@ ENV PAYLOAD_SECRET=docker_build_secret_key_mock
 
 RUN npm run build
 
-# Prune devDependencies to keep the runner stage lightweight
-RUN npm prune --omit=dev
-
-
-# Stage 3: Lightweight production runner
+# Stage 3: Production Runner (Standalone)
 FROM node:20-alpine AS runner
 WORKDIR /app
 
@@ -31,19 +27,15 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
-# Runtime assets
+# Copy Next.js public assets and static files
 COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next/static ./.next/static
 
-# Payload CMS needs these at runtime to resolve collections and config
-COPY --from=builder /app/payload.config.ts ./payload.config.ts
-COPY --from=builder /app/tsconfig.json ./tsconfig.json
-COPY --from=builder /app/next.config.ts ./next.config.ts
-COPY --from=builder /app/src/collections ./src/collections
-COPY --from=builder /app/src/migrations ./src/migrations
+# Copy Next.js standalone output (includes pruned runtime node_modules)
+COPY --from=builder /app/.next/standalone ./
 
 EXPOSE 3000
 
-CMD ["sh", "-c", "npm run payload migrate && npm run start"]
+# Start the standalone Next.js server. 
+# Databases migrations are run automatically on start via `prodMigrations: migrations` in payload.config.ts.
+CMD ["node", "server.js"]
