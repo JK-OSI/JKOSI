@@ -69,7 +69,7 @@ export const Repositories: CollectionConfig = {
     {
       name: 'owner',
       type: 'relationship',
-      relationTo: 'users',
+      relationTo: 'members',
       label: 'Owner / Submitter',
     },
   ],

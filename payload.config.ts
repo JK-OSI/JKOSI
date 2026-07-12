@@ -5,6 +5,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Users } from './src/collections/Users'
+import { Members } from './src/collections/Members'
 import { Repositories } from './src/collections/Repositories'
 import { Submissions } from './src/collections/Submissions'
 
@@ -18,7 +19,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Repositories, Submissions],
+  collections: [Users, Members, Repositories, Submissions],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || 'ab6a1f695e4c043a3jkosiplatformsecretkey',
   typescript: {

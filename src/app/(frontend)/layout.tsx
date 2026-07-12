@@ -46,7 +46,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-primary min-h-screen flex flex-col">
+      <body className="bg-background text-on-background font-body-md selection:bg-primary-fixed selection:text-primary min-h-screen flex flex-col" suppressHydrationWarning={true}>
         {children}
       </body>
     </html>

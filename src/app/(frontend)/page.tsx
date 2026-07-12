@@ -12,7 +12,7 @@ export default function Home() {
   const [allProjects, setAllProjects] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch('/api/repositories?limit=3')
+    fetch('/api/repositories?limit=3&depth=1')
       .then(res => res.json())
       .then(data => {
         if (data.docs && data.docs.length > 0) {
@@ -37,7 +37,7 @@ export default function Home() {
         setFeaturedProjects([]);
       });
 
-    fetch('/api/repositories?limit=100')
+    fetch('/api/repositories?limit=100&depth=1')
       .then(res => res.json())
       .then(data => {
         if (data.docs && data.docs.length > 0) {

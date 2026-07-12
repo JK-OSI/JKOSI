@@ -43,10 +43,11 @@ export const Submissions: CollectionConfig = {
       label: 'Submission Status',
     },
     {
-      name: 'user',
+      // Links to a Member (public directory profile), not an admin User
+      name: 'member',
       type: 'relationship',
-      relationTo: 'users',
-      label: 'Submitter',
+      relationTo: 'members',
+      label: 'Submitter (Member)',
     },
     {
       name: 'fullName',
@@ -101,17 +102,18 @@ export const Submissions: CollectionConfig = {
             else if (lowerTags.some((t: string) => ['iot', 'arduino', 'esp32', 'sensor', 'firmware'].includes(t))) category = 'IoT'
             else if (lowerTags.some((t: string) => ['blockchain', 'hyperledger', 'solidity', 'web3', 'nft'].includes(t))) category = 'Blockchain'
 
-            // Locate or auto-create User record for owner
-            let ownerId = doc.user
-            if (!ownerId) {
+            // Locate or auto-create a Member record for the submitter
+            let memberId = doc.member
+            if (!memberId) {
               const usernameToQuery = doc.githubUsername ? doc.githubUsername.trim() : null
               const emailToQuery = doc.email ? doc.email.trim() : null
 
-              let existingUser = null
+              let existingMember = null
 
+              // 1. Try to find by GitHub username first
               if (usernameToQuery) {
-                const usersRes = await req.payload.find({
-                  collection: 'users',
+                const membersRes = await req.payload.find({
+                  collection: 'members',
                   where: {
                     githubUsername: {
                       equals: usernameToQuery,
@@ -119,14 +121,15 @@ export const Submissions: CollectionConfig = {
                   },
                   limit: 1,
                 })
-                if (usersRes.docs && usersRes.docs.length > 0) {
-                  existingUser = usersRes.docs[0]
+                if (membersRes.docs && membersRes.docs.length > 0) {
+                  existingMember = membersRes.docs[0]
                 }
               }
 
-              if (!existingUser && emailToQuery) {
-                const usersRes = await req.payload.find({
-                  collection: 'users',
+              // 2. Fall back to email match
+              if (!existingMember && emailToQuery) {
+                const membersRes = await req.payload.find({
+                  collection: 'members',
                   where: {
                     email: {
                       equals: emailToQuery,
@@ -134,34 +137,34 @@ export const Submissions: CollectionConfig = {
                   },
                   limit: 1,
                 })
-                if (usersRes.docs && usersRes.docs.length > 0) {
-                  existingUser = usersRes.docs[0]
+                if (membersRes.docs && membersRes.docs.length > 0) {
+                  existingMember = membersRes.docs[0]
                 }
               }
 
-              if (existingUser) {
-                ownerId = existingUser.id
-                // Update bio and username if not set in database
+              if (existingMember) {
+                memberId = existingMember.id
+                // Fill in any missing profile data
                 await req.payload.update({
-                  collection: 'users',
-                  id: ownerId,
+                  collection: 'members',
+                  id: memberId,
                   data: {
-                    githubUsername: existingUser.githubUsername || doc.githubUsername,
-                    bio: existingUser.bio || doc.bio,
+                    githubUsername: existingMember.githubUsername || doc.githubUsername,
+                    bio: existingMember.bio || doc.bio,
                   },
                 })
               } else {
-                // Create a new user record
-                const newUser = await req.payload.create({
-                  collection: 'users',
+                // Create a new Member record for this developer
+                const newMember = await req.payload.create({
+                  collection: 'members',
                   data: {
-                    email: emailToQuery || `${usernameToQuery || 'user-' + Math.random().toString(36).slice(-4)}@jkosi.org`,
-                    githubUsername: doc.githubUsername || 'anonymous',
+                    githubUsername: usernameToQuery || `user-${Math.random().toString(36).slice(-4)}`,
+                    email: emailToQuery || undefined,
+                    fullName: doc.fullName || undefined,
                     bio: doc.bio || '',
-                    password: Math.random().toString(36).slice(-10) + 'A1!',
                   },
                 })
-                ownerId = newUser.id
+                memberId = newMember.id
               }
             }
 
@@ -171,7 +174,7 @@ export const Submissions: CollectionConfig = {
                 name: doc.projectName,
                 url: doc.repoUrl,
                 description: doc.description,
-                owner: ownerId,
+                owner: memberId,
                 stars: 0,
                 commits: 0,
                 category,

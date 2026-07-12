@@ -1,71 +1,44 @@
 import type { CollectionConfig } from 'payload'
 
+// Users = ONLY the admin team who can log into /admin
+// Regular platform developers belong in the Members collection instead.
 export const Users: CollectionConfig = {
   slug: 'users',
   auth: true,
   admin: {
     useAsTitle: 'email',
+    description: 'Admin accounts only. Platform developers/contributors live in the Members collection.',
   },
-
-  // ─── Access Control ──────────────────────────────────────────────────────────
-  // Only users with the 'admin' role can read/update/delete other user records.
-  // Regular 'developer' users can only read/update their own profile.
   access: {
-    // Only admins can see the full user list in the admin panel
+    // Only admins can read the full admin user list
     read: ({ req: { user } }) => {
       if (!user) return false
       if (user.role === 'admin') return true
-      // Developers can only read their own record
-      return {
-        id: { equals: user.id },
-      }
+      return { id: { equals: user.id } }
     },
-    // Only admins can create new users directly from the admin panel
     create: ({ req: { user } }) => user?.role === 'admin',
-    // Admins can update anyone; developers can only update themselves
     update: ({ req: { user } }) => {
       if (!user) return false
       if (user.role === 'admin') return true
-      return {
-        id: { equals: user.id },
-      }
+      return { id: { equals: user.id } }
     },
-    // Only admins can delete users
     delete: ({ req: { user } }) => user?.role === 'admin',
-    // Only admins can access this collection in the Payload admin panel
     admin: ({ req: { user } }) => user?.role === 'admin',
   },
-
   fields: [
     {
       name: 'role',
       type: 'select',
-      label: 'Role',
-      defaultValue: 'developer',
+      label: 'Admin Role',
+      defaultValue: 'admin',
       required: true,
-      // Only admins can change a user's role
       access: {
         update: ({ req: { user } }) => user?.role === 'admin',
       },
       options: [
-        { label: '🛡️ Admin', value: 'admin' },
-        { label: '👨‍💻 Developer', value: 'developer' },
+        { label: '🛡️ Super Admin', value: 'admin' },
+        { label: '📝 Editor', value: 'editor' },
       ],
-    },
-    {
-      name: 'githubUsername',
-      type: 'text',
-      label: 'GitHub Username',
-    },
-    {
-      name: 'avatarUrl',
-      type: 'text',
-      label: 'Avatar URL',
-    },
-    {
-      name: 'bio',
-      type: 'textarea',
-      label: 'Biography / About',
     },
   ],
 }

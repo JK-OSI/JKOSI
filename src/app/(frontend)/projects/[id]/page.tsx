@@ -37,6 +37,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
     dbProject = await payload.findByID({
       collection: 'repositories',
       id: projectId,
+      depth: 1, // populate owner (Member) relationship
     })
   } catch (error) {
     // Non-DB record or database not configured yet
@@ -117,6 +118,7 @@ export default async function ProjectDetail({ params }: { params: Promise<{ id: 
     const res = await payload.find({
       collection: 'repositories',
       limit: 3,
+      depth: 1, // populate owner (Member) relationship
       where: {
         id: {
           not_equals: projectId,

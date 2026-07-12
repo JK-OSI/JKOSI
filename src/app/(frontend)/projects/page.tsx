@@ -11,6 +11,7 @@ export default async function Projects() {
     const res = await payload.find({
       collection: 'repositories',
       limit: 100,
+      depth: 1, // populate owner (Member) relationship
     })
     
     if (res.docs && res.docs.length > 0) {
