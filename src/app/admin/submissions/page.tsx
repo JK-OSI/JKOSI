@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Submission {
   id: string;
@@ -198,22 +199,30 @@ export default function AdminSubmissions() {
                   </span>
                 </div>
 
-                {sub.status === 'pending' && (
-                  <div className="flex gap-3 mt-4 pt-4 border-t border-outline/30">
-                    <button
-                      onClick={() => updateStatus(sub.id, 'approved')}
-                      className="px-5 py-2 bg-primary text-on-primary font-bold rounded-xl text-sm hover:opacity-90 transition-opacity font-mono text-xs uppercase tracking-wider"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => updateStatus(sub.id, 'rejected')}
-                      className="px-5 py-2 bg-surface border border-outline text-on-surface rounded-xl text-sm hover:bg-surface-container transition-colors font-mono text-xs uppercase tracking-wider"
-                    >
-                      Reject
-                    </button>
-                  </div>
-                )}
+                <div className="flex gap-3 mt-4 pt-4 border-t border-outline/30">
+                  <Link
+                    href={`/admin/submissions/${sub.id}`}
+                    className="px-5 py-2 bg-surface border border-outline text-on-surface rounded-xl text-sm hover:bg-surface-container transition-colors font-mono text-xs uppercase tracking-wider"
+                  >
+                    Details
+                  </Link>
+                  {sub.status === 'pending' && (
+                    <>
+                      <button
+                        onClick={() => updateStatus(sub.id, 'approved')}
+                        className="px-5 py-2 bg-primary text-on-primary font-bold rounded-xl text-sm hover:opacity-90 transition-opacity font-mono text-xs uppercase tracking-wider"
+                      >
+                        Approve
+                      </button>
+                      <button
+                        onClick={() => updateStatus(sub.id, 'rejected')}
+                        className="px-5 py-2 bg-surface border border-outline text-on-surface rounded-xl text-sm hover:bg-surface-container transition-colors font-mono text-xs uppercase tracking-wider"
+                      >
+                        Reject
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             ))}
           </div>
