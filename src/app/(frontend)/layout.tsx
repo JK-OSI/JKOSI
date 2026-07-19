@@ -17,6 +17,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "JKOSI | Jammu & Kashmir Open Source Initiative",
   description: "Accelerating regional digital transformation by fostering a collaborative ecosystem for Kashmiri developers, students, and innovators.",
+  icons: [{ rel: "icon", url: "/logo.webp" }, { rel: "apple-touch-icon", url: "/logo.webp" }],
 };
 
 import Script from 'next/script';
