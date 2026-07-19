@@ -14,9 +14,9 @@ export default function Footer({ variant = 'home' }: FooterProps) {
               <span className="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim block mb-4 font-headline-lg flex items-center gap-2">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://img.icons8.com/?size=100&id=g5rLTJhMpDL7&format=png&color=ffffff"
-                  alt="Open Source Logo"
-                  className="w-5 h-5 object-contain brightness-0 invert"
+                  src="/logo.webp"
+                  alt="JKOSI Logo"
+                  className="w-10 h-10 object-contain"
                 />
                 JKOSI
               </span>
@@ -48,7 +48,6 @@ export default function Footer({ variant = 'home' }: FooterProps) {
               <h5 className="text-primary font-bold mb-4 font-label-md">Ecosystem</h5>
               <ul className="space-y-3">
                 <li><a className="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="https://github.com/JK-OSI/JKOSI" target="_blank" rel="noreferrer">GitHub</a></li>
-                <li><a className="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Discord</a></li>
                 <li><a className="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Newsletter</a></li>
                 <li><a className="text-on-secondary-container font-label-md hover:underline decoration-primary transition-all" href="#">Mentorship</a></li>
               </ul>
@@ -74,14 +73,14 @@ export default function Footer({ variant = 'home' }: FooterProps) {
           <div className="max-w-[480px]">
             <div className="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed-dim mb-md flex items-center gap-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="https://img.icons8.com/?size=100&id=g5rLTJhMpDL7&format=png&color=ffffff"
-                alt="Open Source Logo"
-                className="w-5 h-5 object-contain brightness-0 invert"
-              />
-              JKOSI
-            </div>
-            <p className="font-body-md text-body-md text-on-secondary-container dark:text-on-secondary-fixed-variant mb-lg">
+                <img
+                  src="/logo.webp"
+                  alt="JKOSI Logo"
+                  className="w-10 h-10 object-contain"
+                />
+                JKOSI
+              </div>
+              <p className="font-body-md text-body-md text-on-secondary-container dark:text-on-secondary-fixed-variant mb-lg">
               © 2024 Jammu &amp; Kashmir Open Source Initiative. Empowering regional innovation through open collaboration.
             </p>
             <div className="flex gap-md">
@@ -104,7 +103,6 @@ export default function Footer({ variant = 'home' }: FooterProps) {
             <div className="flex flex-col gap-sm">
               <span className="font-label-md text-label-md font-bold text-primary dark:text-primary-fixed-dim mb-sm">Community</span>
               <a className="font-label-sm text-label-sm text-on-secondary-container hover:underline decoration-primary" href="https://github.com/JK-OSI/JKOSI" target="_blank" rel="noreferrer">GitHub</a>
-              <a className="font-label-sm text-label-sm text-on-secondary-container hover:underline decoration-primary" href="#">Discord</a>
             </div>
           </div>
         </div>

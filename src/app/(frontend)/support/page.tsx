@@ -64,11 +64,11 @@ export default function SupportPage() {
               <div className="flex flex-col sm:flex-row justify-between items-start gap-md text-sm text-on-surface-variant font-mono">
                 <div>
                   <span className="block text-xs text-secondary uppercase font-black">Support Email</span>
-                  <a href="mailto:support@jkosi.org" className="text-primary hover:underline text-base font-bold">support@jkosi.org</a>
+                  <a href="mailto:jkosi.admin@gmail.com" className="text-primary hover:underline text-base font-bold">jkosi.admin@gmail.com</a>
                 </div>
                 <div>
-                  <span className="block text-xs text-secondary uppercase font-black">Community Discord</span>
-                  <a href="https://discord.gg/jkosi" className="text-primary hover:underline text-base font-bold">discord.gg/jkosi</a>
+                  <span className="block text-xs text-secondary uppercase font-black">Contact Number</span>
+                  <a href="tel:+919972588966" className="text-primary hover:underline text-base font-bold">+91 99725 88966</a>
                 </div>
                 <div>
                   <span className="block text-xs text-secondary uppercase font-black">GitHub Repository</span>

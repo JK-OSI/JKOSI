@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 export default function SubmitProject() {
+  const [showGuidelines, setShowGuidelines] = useState(true);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -202,7 +203,95 @@ export default function SubmitProject() {
         </section>
 
         <div className="w-full max-w-[960px] relative z-10">
-          {!isSubmitted ? (
+          {showGuidelines ? (
+            <div className="bg-surface-container border border-outline/50 rounded-3xl p-8 md:p-12 shadow-xl shadow-surface-container-lowest/15">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                  <span className="material-symbols-outlined text-lg">featured_seasonal_and_gifts</span>
+                </div>
+                <h2 className="font-headline-md text-2xl text-on-surface font-bold">Guidelines for Getting Featured on JKOSI</h2>
+              </div>
+              <p className="text-on-surface-variant text-sm mb-8">To get your project featured on JKOSI:</p>
+              <ol className="space-y-5 mb-8">
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">1</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Add an Open-Source License</p>
+                    <p className="text-on-surface-variant text-sm">Include an OSI-approved licence such as Apache 2.0, MIT, GPLv3, AGPLv3, MPL 2.0, or BSD.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">2</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Publish the Complete Source Code</p>
+                    <p className="text-on-surface-variant text-sm">The repository should contain working code, not only screenshots, presentations, or a README. Remove all passwords, keys, personal data, and confidential information.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">3</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Provide Clear Documentation</p>
+                    <p className="text-on-surface-variant text-sm">Your README should explain the problem, solution, technology, setup process, usage, limitations, future plans, and contributor details.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">4</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Give Proper Attribution</p>
+                    <p className="text-on-surface-variant text-sm">Existing ideas may be copied, adapted, or extended, but original projects, authors, datasets, models, APIs, libraries, and templates must be credited.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">5</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Make the Project Reproducible</p>
+                    <p className="text-on-surface-variant text-sm">Include dependency files, environment examples, database instructions, dataset or model links, and clear steps to run or deploy the project.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">6</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Be Transparent</p>
+                    <p className="text-on-surface-variant text-sm">Clearly mention what works, what is incomplete, which features are simulated, and whether AI-generated code or starter templates were used.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">7</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Respect Privacy and Intellectual Property</p>
+                    <p className="text-on-surface-variant text-sm">Do not publish private data, copyrighted material, proprietary code, or confidential information without permission.</p>
+                  </div>
+                </li>
+                <li className="flex gap-4">
+                  <span className="w-7 h-7 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 font-mono text-xs font-bold mt-0.5">8</span>
+                  <div>
+                    <p className="font-bold text-on-surface font-mono text-sm uppercase tracking-wider">Support Community Contributions</p>
+                    <p className="text-on-surface-variant text-sm">Enable issues, pull requests, bug reports, contribution guidelines, and clear maintainer contact details.</p>
+                  </div>
+                </li>
+              </ol>
+              <div className="bg-surface-container-high/60 border border-outline/30 rounded-xl p-5 mb-8 space-y-3">
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  <strong className="text-on-surface">Please Note:</strong> Being listed on JKOSI does not mean that JKOSI endorses every claim made by a project. It means that the project has been documented as part of the growing open-source ecosystem.
+                </p>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  JKOSI reserves the right to request clarification, suggest improvements, change the listing category, temporarily withhold a project, or remove a listing in cases involving plagiarism, false claims, licence violations, privacy risks, harmful content, or misuse of intellectual property.
+                </p>
+                <p className="text-on-surface-variant text-sm leading-relaxed">
+                  Our objective is not only to list projects, but to build a trusted community asset that documents problems, solutions, experiments, implementations, and learnings.
+                </p>
+              </div>
+              <div className="flex justify-end pt-6 border-t border-outline/50">
+                <button
+                  onClick={() => setShowGuidelines(false)}
+                  className="px-8 py-3 bg-primary text-on-primary font-mono text-xs uppercase tracking-widest font-bold rounded-full shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity flex items-center gap-2 cursor-pointer"
+                >
+                  I Understand, Continue
+                  <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                </button>
+              </div>
+            </div>
+          ) : !isSubmitted ? (
             <>
               {/* Horizontal Wizard Stepper */}
               <div className="flex items-center justify-between mb-10 px-6 relative">

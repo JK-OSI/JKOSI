@@ -60,9 +60,9 @@ export default function Navbar({ activePage, isFixed = false, showSearch = null 
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://img.icons8.com/?size=100&id=g5rLTJhMpDL7&format=png&color=ffffff"
-              alt="Open Source Logo"
-              className="w-5 h-5 object-contain brightness-0 invert"
+              src="/logo.webp"
+              alt="JKOSI Logo"
+              className="w-12 h-12 object-contain"
             />
             JKOSI
           </Link>
