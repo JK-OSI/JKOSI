@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface Subscriber {
   id: string;
@@ -73,18 +74,23 @@ export default function AdminSubscribers() {
           <div className="flex items-center gap-6">
             <h1 className="font-headline-md text-xl font-black text-on-surface">JKOSI Admin</h1>
             <nav className="flex gap-4">
-              {['Submissions', 'Repositories', 'Subscribers'].map((page) => (
-                <a
-                  key={page}
-                  href={`/admin/${page.toLowerCase()}`}
+              {[
+                { name: 'Submissions', href: '/admin/submissions' },
+                { name: 'Join Applications', href: '/admin/join-applications' },
+                { name: 'Repositories', href: '/admin/repositories' },
+                { name: 'Subscribers', href: '/admin/subscribers' },
+              ].map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
                   className={`font-mono text-xs uppercase tracking-wider px-3 py-1.5 rounded-lg transition-colors ${
-                    activePage().includes(page.toLowerCase())
-                      ? 'bg-primary text-on-primary'
+                    item.href === '/admin/subscribers'
+                      ? 'bg-primary text-on-primary font-bold'
                       : 'text-on-surface-variant hover:text-primary'
                   }`}
                 >
-                  {page}
-                </a>
+                  {item.name}
+                </Link>
               ))}
             </nav>
           </div>
