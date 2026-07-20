@@ -86,3 +86,20 @@ export function mapSubmission(row: DbRow) {
     updatedAt: row.updated_at as string,
   }
 }
+
+export function mapJoinApplication(row: DbRow) {
+  return {
+    id: row.id as string,
+    role: row.role as string,
+    fullName: row.full_name as string,
+    email: row.email as string,
+    githubUsername: row.github_username as string | null,
+    skills: row.skills as string | null,
+    bio: row.bio as string | null,
+    location: row.location as string | null,
+    status: (row.status as string) || 'pending',
+    createdAt: row.created_at as string,
+    updatedAt: row.updated_at as string,
+  }
+}
+

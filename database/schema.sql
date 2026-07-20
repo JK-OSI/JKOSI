@@ -78,7 +78,23 @@ CREATE TABLE IF NOT EXISTS subscribers (
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+-- Community join applications (public join form -> database)
+CREATE TABLE IF NOT EXISTS join_applications (
+  id TEXT PRIMARY KEY,
+  role TEXT NOT NULL CHECK(role IN ('Volunteer', 'Mentor')),
+  full_name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  github_username TEXT,
+  skills TEXT,
+  bio TEXT,
+  location TEXT,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending', 'approved', 'rejected')),
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 -- Seed the default admin user
 -- Run `ADMIN_PASSWORD=<password> npm run db:seed-admin` to seed or update the admin password.
 -- This script is NOT a migration — it builds and applies the hash from an env var.
 -- The old approach of hardcoding a hash in this file was removed for security reasons.
+

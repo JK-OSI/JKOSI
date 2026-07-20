@@ -179,6 +179,13 @@ details > summary::-webkit-details-marker {
   backdrop-filter: blur(16px);
   border: 1px solid oklch(24% 0.015 165);
 }
+.masonry { column-count: 1; column-gap: 1.5rem; }
+@media (min-width: 768px) { .masonry { column-count: 2; } }
+@media (min-width: 1024px) { .masonry { column-count: 3; } }
+.masonry-item { break-inside: avoid; margin-bottom: 1.5rem; }
+.role-card { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.role-card.selected { border-color: var(--color-primary); background-color: var(--color-surface-container-high); ring: 2px solid var(--color-primary); }
+
 
 /* Hallmark Premium Design Tokens & Utilities */
 :root {

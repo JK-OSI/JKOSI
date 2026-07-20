@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 interface NavbarProps {
-  activePage: "directory" | "submit" | "community" | "documentation" | "home" | "about" | "guidelines" | "privacy" | "support";
+  activePage: "directory" | "submit" | "community" | "documentation" | "home" | "about" | "guidelines" | "privacy" | "support" | "join";
   isFixed?: boolean;
   showSearch?: "projects" | "submissions" | null;
 }
@@ -109,6 +109,17 @@ export default function Navbar({ activePage, isFixed = false, showSearch = null 
             }`}
           >
             Support
+          </Link>
+          <Link
+            href="/join"
+            className={`relative font-mono text-[11px] uppercase tracking-widest px-4 py-1.5 rounded-full border transition-all duration-300 ${
+              activePage === "join"
+                ? "bg-primary text-on-primary border-primary font-bold shadow-lg shadow-primary/30"
+                : "bg-primary/10 text-primary border-primary/40 hover:bg-primary hover:text-on-primary hover:border-primary hover:shadow-lg hover:shadow-primary/30 hover:scale-105"
+            }`}
+          >
+            <span className="relative z-10">Join Us</span>
+            <span className="absolute inset-0 rounded-full bg-primary/20 animate-ping opacity-0 hover:opacity-100 transition-opacity duration-300" />
           </Link>
         </div>
 
