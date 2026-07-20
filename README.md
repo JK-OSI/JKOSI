@@ -39,7 +39,7 @@
 
 ## About the Project
 
-**JKOSI** (Jammu & Kashmir Open Source Initiative) is a regional open-source registry designed to catalog, audit, and promote software projects built by developers from Jammu & Kashmir..
+**JKOSI** (Jammu & Kashmir Open Source Initiative) is a regional open-source registry designed to catalog, audit, and promote software projects built by developers from Jammu & Kashmir.
 
 The platform provides:
 - A **public directory** of verified open-source projects with live GitHub stats
